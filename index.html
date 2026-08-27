@@ -6,819 +6,259 @@
 <meta name="color-scheme" content="light">
 <title>Nursing Assignment Board</title>
 <style>
-/* ---------------------------------------------------------
-   Nursing Assignment Board — visual identity
-   Palette: clinical teal/ink on soft clinical white,
-   amber accent reserved for "live" state and Night shift.
-   Type: a firm grotesque for structure, a humane serif
-   nowhere (kept purely functional — this is a working tool).
---------------------------------------------------------- */
 :root{
-  --ink:        #10262b;
-  --teal-900:   #0d3b3e;
-  --teal-700:   #14615f;
-  --teal-500:   #1f8a82;
-  --teal-100:   #e4f2f0;
-  --paper:      #f6f8f7;
-  --paper-2:    #ffffff;
-  --line:       #cfe0dd;
-  --amber:      #c97a2b;
-  --amber-100:  #fbeee0;
-  --red:        #b3452f;
-  --shadow:     0 1px 2px rgba(13,59,62,0.06), 0 8px 24px -12px rgba(13,59,62,0.18);
-  --radius:     10px;
+  --ink:#10262b;--teal-900:#0d3b3e;--teal-700:#14615f;--teal-500:#1f8a82;--teal-100:#e4f2f0;
+  --paper:#f6f8f7;--white:#fff;--line:#cfe0dd;--muted:#607875;--amber:#c97a2b;--amber-100:#fbeee0;
+  --red:#b3452f;--red-100:#fbe8e3;--green:#1c7b59;--green-100:#e5f4ed;--shadow:0 1px 2px rgba(13,59,62,.06),0 10px 26px -15px rgba(13,59,62,.28);--radius:12px;
 }
-
-*{ box-sizing: border-box; }
-
-html,body{
-  margin:0;
-  padding:0;
-  background:var(--paper);
-  color:var(--ink);
-  font-family: "Segoe UI", "IBM Plex Sans", -apple-system, Arial, sans-serif;
-}
-
-body{
-  min-height:100vh;
-}
-
-.topbar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:16px;
-  padding:14px 24px;
-  background:var(--teal-900);
-  color:var(--paper-2);
-}
-
-.topbar .brand{
-  display:flex;
-  align-items:baseline;
-  gap:10px;
-}
-
-.topbar .brand .mark{
-  font-weight:800;
-  letter-spacing:0.04em;
-  font-size:15px;
-  color:var(--amber);
-  border:1px solid rgba(255,255,255,0.25);
-  padding:2px 8px;
-  border-radius:999px;
-}
-
-.topbar h1{
-  font-size:16px;
-  font-weight:600;
-  margin:0;
-  letter-spacing:0.01em;
-}
-
-.topbar a.back{
-  color:var(--paper-2);
-  text-decoration:none;
-  font-size:14px;
-  opacity:0.85;
-  border:1px solid rgba(255,255,255,0.3);
-  padding:6px 12px;
-  border-radius:8px;
-}
-.topbar a.back:hover{ opacity:1; background:rgba(255,255,255,0.08); }
-
-.status-pill{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  font-size:12px;
-  padding:5px 10px;
-  border-radius:999px;
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.2);
-}
-.status-dot{
-  width:8px; height:8px; border-radius:50%;
-  background:#7fd4a0;
-  box-shadow:0 0 0 3px rgba(127,212,160,0.25);
-}
-.status-dot.off{ background:#e08b6f; box-shadow:0 0 0 3px rgba(224,139,111,0.25); }
-
-/* ---------- Home ---------- */
-.home-wrap{
-  max-width:920px;
-  margin:0 auto;
-  padding:64px 24px;
-}
-.home-header{ text-align:center; margin-bottom:40px; }
-.home-header .eyebrow{
-  text-transform:uppercase;
-  font-size:12px;
-  letter-spacing:0.16em;
-  color:var(--teal-700);
-  font-weight:700;
-}
-.home-header h1{
-  font-size:34px;
-  margin:8px 0 6px;
-  color:var(--teal-900);
-}
-.home-header p{
-  color:#4a615f;
-  max-width:520px;
-  margin:0 auto;
-  line-height:1.5;
-}
-
-.choice-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:20px;
-  margin-top:36px;
-}
-@media (max-width:640px){ .choice-grid{ grid-template-columns:1fr; } }
-
-.choice-card{
-  display:block;
-  text-decoration:none;
-  color:inherit;
-  background:var(--paper-2);
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  padding:28px 24px;
-  box-shadow:var(--shadow);
-  transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
-  position:relative;
-  overflow:hidden;
-}
-.choice-card:hover{
-  transform:translateY(-3px);
-  border-color:var(--teal-500);
-}
-.choice-card .num{
-  font-size:12px;
-  font-weight:800;
-  letter-spacing:0.12em;
-  color:var(--teal-500);
-}
-.choice-card h2{
-  margin:10px 0 6px;
-  font-size:21px;
-  color:var(--teal-900);
-}
-.choice-card p{
-  margin:0;
-  color:#4a615f;
-  font-size:14px;
-  line-height:1.5;
-}
-.choice-card .go{
-  margin-top:16px;
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  font-size:13px;
-  font-weight:700;
-  color:var(--teal-700);
-}
-.choice-card.view .go{ color:var(--amber); }
-.choice-card.view h2{ color:var(--amber); }
-
-.home-footnote{
-  margin-top:36px;
-  text-align:center;
-  font-size:12.5px;
-  color:#6b8582;
-}
-
-/* ---------- Shift board ---------- */
-.page-wrap{
-  max-width:1100px;
-  margin:0 auto;
-  padding:24px;
-}
-
-.meta-row{
-  display:flex;
-  flex-wrap:wrap;
-  gap:14px;
-  align-items:flex-end;
-  background:var(--paper-2);
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  padding:16px 18px;
-  margin-bottom:20px;
-  box-shadow:var(--shadow);
-}
-.meta-field{ display:flex; flex-direction:column; gap:6px; flex:1; min-width:180px; }
-.meta-field label{ font-size:11.5px; text-transform:uppercase; letter-spacing:0.08em; color:var(--teal-700); font-weight:700; }
-.meta-field input{
-  border:1px solid var(--line);
-  border-radius:8px;
-  padding:9px 10px;
-  font-size:14.5px;
-  background:var(--paper);
-  color:var(--ink);
-}
-.meta-field input:read-only{ background:var(--teal-100); color:var(--teal-900); }
-.meta-field input:focus{ outline:2px solid var(--teal-500); outline-offset:1px; }
-
-.meta-updated{
-  font-size:12.5px;
-  color:#5c7572;
-  white-space:nowrap;
-  padding-bottom:9px;
-}
-
-.shift-columns{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:20px;
-}
-@media (max-width:860px){ .shift-columns{ grid-template-columns:1fr; } }
-
-.shift-panel{
-  background:var(--paper-2);
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  overflow:hidden;
-  box-shadow:var(--shadow);
-}
-.shift-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:14px 16px;
-  color:#fff;
-}
-.shift-head.day{ background:var(--teal-700); }
-.shift-head.night{ background:var(--ink); }
-.shift-head h3{ margin:0; font-size:15px; letter-spacing:0.03em; }
-.shift-head span.hours{ font-size:12px; opacity:0.85; }
-
-table.assign-table{
-  width:100%;
-  border-collapse:collapse;
-}
-table.assign-table thead th{
-  text-align:left;
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:0.06em;
-  color:var(--teal-700);
-  padding:8px 10px;
-  border-bottom:1px solid var(--line);
-  background:var(--teal-100);
-}
-table.assign-table thead th.col-idx{ width:34px; }
-table.assign-table thead th.col-nurse{ width:38%; }
-
-table.assign-table td{
-  padding:6px 8px;
-  border-bottom:1px solid var(--line);
-  vertical-align:middle;
-}
-table.assign-table tr:last-child td{ border-bottom:none; }
-table.assign-table td.idx{
-  color:#7d938f;
-  font-size:12.5px;
-  font-weight:700;
-  text-align:center;
-}
-
-table.assign-table input[type="text"]{
-  width:100%;
-  border:1px solid transparent;
-  background:transparent;
-  padding:7px 8px;
-  border-radius:6px;
-  font-size:14px;
-  color:var(--ink);
-}
-table.assign-table input[type="text"]:hover{ background:var(--paper); }
-table.assign-table input[type="text"]:focus{
-  outline:none;
-  border-color:var(--teal-500);
-  background:#fff;
-  box-shadow:0 0 0 3px rgba(31,138,130,0.14);
-}
-
-/* read-only view mode */
-.view-mode table.assign-table input[type="text"]{
-  pointer-events:none;
-  background:transparent;
-}
-.view-mode td.idx{ color:#9fb2af; }
-.cell-empty{ color:#a9bdba; font-style:italic; }
-
-/* actions */
-.actions-row{
-  display:flex;
-  gap:12px;
-  justify-content:flex-end;
-  margin-top:20px;
-}
-button.btn, a.btn{
-  font-family:inherit;
-  font-size:14.5px;
-  font-weight:700;
-  padding:11px 20px;
-  border-radius:9px;
-  border:1px solid transparent;
-  cursor:pointer;
-  text-decoration:none;
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-}
-.btn-primary{ background:var(--teal-700); color:#fff; }
-.btn-primary:hover{ background:var(--teal-900); }
-.btn-ghost{ background:transparent; color:var(--teal-700); border-color:var(--line); }
-.btn-ghost:hover{ background:var(--teal-100); }
-
-.save-toast{
-  position:fixed;
-  bottom:22px;
-  left:50%;
-  transform:translateX(-50%) translateY(12px);
-  background:var(--ink);
-  color:#fff;
-  padding:10px 18px;
-  border-radius:999px;
-  font-size:13.5px;
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .2s ease, transform .2s ease;
-  box-shadow:var(--shadow);
-}
-.save-toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
-
-.legend-note{
-  margin-top:14px;
-  font-size:12.5px;
-  color:#6b8582;
-  text-align:right;
-}
-
-/* ---------- File connection panel ---------- */
-.connect-panel{
-  background:var(--paper-2);
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  padding:18px;
-  margin-bottom:20px;
-  box-shadow:var(--shadow);
-}
-.connect-panel .connect-row{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  flex-wrap:wrap;
-}
-.connect-panel .file-name{
-  font-size:13.5px;
-  color:var(--teal-900);
-  font-weight:700;
-  background:var(--teal-100);
-  padding:6px 12px;
-  border-radius:999px;
-}
-.connect-panel .file-name.none{
-  color:#8a5a3a;
-  background:var(--amber-100);
-}
-.connect-panel p.hint{
-  margin:10px 0 0;
-  font-size:13px;
-  color:#5c7572;
-  line-height:1.5;
-}
-
-.support-banner{
-  background:var(--amber-100);
-  border:1px solid #e7c79a;
-  color:#7a4a1f;
-  border-radius:var(--radius);
-  padding:14px 16px;
-  margin-bottom:20px;
-  font-size:13.5px;
-  line-height:1.5;
-}
-.support-banner strong{ color:#5c3512; }
-
-/* ---------- Dynamic slot controls ---------- */
-table.assign-table th.col-action{ width:38px; }
-table.assign-table td.action-cell{ text-align:center; padding:4px; }
-.row-remove-btn{
-  width:24px; height:24px;
-  border-radius:6px;
-  border:1px solid var(--line);
-  background:transparent;
-  color:var(--red);
-  font-size:15px;
-  line-height:1;
-  cursor:pointer;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-}
-.row-remove-btn:hover{ background:#fbe9e5; border-color:var(--red); }
-.row-remove-btn:disabled{
-  opacity:0.3;
-  cursor:not-allowed;
-}
-.shift-foot{
-  padding:10px 12px;
-  border-top:1px solid var(--line);
-  background:var(--paper);
-}
-.add-slot-btn{
-  width:100%;
-  border:1px dashed var(--teal-500);
-  background:transparent;
-  color:var(--teal-700);
-  font-weight:700;
-  font-size:13.5px;
-  padding:9px;
-  border-radius:8px;
-  cursor:pointer;
-}
-.add-slot-btn:hover{ background:var(--teal-100); }
-
-/* ---------- Unit assignment dropdown (edit page) ---------- */
-table.assign-table select.unit-select{
-  width:100%;
-  border:1px solid var(--line);
-  background:#fff;
-  padding:7px 8px;
-  border-radius:6px;
-  font-size:13.5px;
-  color:var(--ink);
-  font-family:inherit;
-}
-table.assign-table select.unit-select:focus{
-  outline:none;
-  border-color:var(--teal-500);
-  box-shadow:0 0 0 3px rgba(31,138,130,0.14);
-}
-table.assign-table th.col-unit{ width:34%; }
-table.assign-table th.col-patient{ width:26%; }
-
-/* ---------- Grid preview (view page) ---------- */
-.shift-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(190px, 1fr));
-  gap:14px;
-  padding:16px;
-}
-.assign-card{
-  position:relative;
-  border-radius:12px;
-  overflow:hidden;
-  min-height:132px;
-  padding:14px;
-  color:#fff;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-end;
-  box-shadow:0 4px 14px -6px rgba(13,59,62,0.3);
-}
-.assign-card .card-icon{
-  position:absolute;
-  top:-14px;
-  right:-10px;
-  font-size:78px;
-  opacity:0.22;
-  line-height:1;
-  transform:rotate(8deg);
-}
-.assign-card .card-slot{
-  position:absolute;
-  top:10px;
-  left:10px;
-  font-size:11px;
-  font-weight:800;
-  background:rgba(255,255,255,0.22);
-  padding:2px 8px;
-  border-radius:999px;
-  letter-spacing:0.04em;
-}
-.assign-card .card-unit{
-  font-size:12px;
-  text-transform:uppercase;
-  letter-spacing:0.05em;
-  opacity:0.9;
-  font-weight:700;
-  margin-bottom:2px;
-}
-.assign-card .card-nurse{
-  font-size:16px;
-  font-weight:800;
-  line-height:1.25;
-}
-.assign-card .card-patient{
-  font-size:16px;
-  font-weight:800;
-  line-height:1.25;
-  margin-top:4px;
-  padding-top:6px;
-  border-top:1px solid rgba(255,255,255,0.35);
-}
-.assign-card.unassigned .card-patient{
-  border-top-color:var(--line);
-  font-size:13.5px;
-  font-weight:600;
-  color:#7d938f;
-}
-.assign-card.unassigned{
-  color:#7d938f;
-  background:var(--paper) !important;
-  border:1px dashed var(--line);
-  box-shadow:none;
-}
-.assign-card.unassigned .card-nurse{
-  font-weight:600;
-  font-size:13.5px;
-  color:#9fb2af;
-}
-.assign-card.unassigned .card-icon{ opacity:0.12; }
-
-/* ---------- Four-station workflow ---------- */
-.board-wide{ max-width:1500px; }
-.section-kicker{ font-size:11px; text-transform:uppercase; letter-spacing:.09em; color:var(--teal-700); font-weight:800; margin-bottom:4px; }
-.station-editor-shell{ background:var(--paper-2); border:1px solid var(--line); border-radius:var(--radius); padding:16px; margin-bottom:18px; box-shadow:var(--shadow); }
-.station-tabs,.station-screen-tabs{ display:flex; gap:8px; flex-wrap:wrap; }
-.station-tab,.station-screen-tab{ border:1px solid var(--line); background:#fff; color:var(--teal-900); border-radius:9px; padding:9px 13px; font:700 13.5px inherit; cursor:pointer; }
-.station-tab span{ display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; margin-right:7px; border-radius:999px; background:var(--teal-100); }
-.station-tab.active,.station-screen-tab.active{ background:var(--teal-700); color:#fff; border-color:var(--teal-700); }
-.station-tab.active span{ background:rgba(255,255,255,.2); }
-.station-name-row{ display:flex; align-items:flex-end; gap:18px; margin-top:14px; flex-wrap:wrap; }
-.station-name-field{ min-width:260px; flex:0 1 360px; }
-.station-help{ flex:1; min-width:260px; color:#5c7572; font-size:13px; line-height:1.45; padding-bottom:7px; }
-
-/* Multi-unit picker */
-.unit-picker{ position:relative; width:100%; }
-.unit-picker summary{ list-style:none; cursor:pointer; border:1px solid var(--line); background:#fff; padding:7px 28px 7px 8px; border-radius:6px; font-size:13px; color:var(--ink); position:relative; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.unit-picker summary::-webkit-details-marker{ display:none; }
-.unit-picker summary::after{ content:'▾'; position:absolute; right:9px; top:7px; color:var(--teal-700); }
-.unit-picker[open] summary{ border-color:var(--teal-500); box-shadow:0 0 0 3px rgba(31,138,130,.12); }
-.unit-picker-menu{ position:absolute; z-index:20; top:calc(100% + 5px); left:0; min-width:330px; max-width:430px; max-height:360px; overflow-y:auto; background:#fff; border:1px solid var(--line); border-radius:9px; box-shadow:0 12px 28px rgba(13,59,62,.18); padding:7px; }
-.unit-picker-menu label{ display:flex; align-items:center; gap:9px; padding:8px 9px; border-radius:6px; cursor:pointer; font-size:12.5px; line-height:1.3; }
-.unit-picker-menu label:hover{ background:var(--teal-100); }
-.unit-picker-menu input{ margin:0; accent-color:var(--teal-700); flex:0 0 auto; }
-.unit-option-text{ min-width:0; font-weight:750; color:var(--ink); white-space:normal; }
-
-/* Shared staff overview */
-.staffing-overview{ margin:4px 0 20px; }
-.overview-head,.station-display-control{ display:flex; justify-content:space-between; align-items:flex-end; gap:16px; margin-bottom:11px; flex-wrap:wrap; }
-.overview-head h2,.station-display-control h2{ margin:0; font-size:21px; color:var(--ink); }
-.overview-note{ font-size:12.5px; color:#64807c; }
-.station-overview-grid{ display:grid; grid-template-columns:repeat(4,minmax(210px,1fr)); gap:12px; }
-.station-overview-card{ background:var(--paper-2); border:1px solid var(--line); border-radius:12px; padding:13px; box-shadow:var(--shadow); }
-.station-overview-card.current{ border:2px solid var(--teal-500); padding:12px; }
-.station-overview-card-head{ display:flex; align-items:center; gap:8px; margin-bottom:10px; }
-.station-overview-card-head h3{ margin:0; font-size:15px; color:var(--ink); }
-.station-number{ display:inline-flex; align-items:center; justify-content:center; min-width:27px; height:27px; border-radius:8px; background:var(--teal-700); color:#fff; font-size:12px; font-weight:800; }
-.staff-shift-row{ display:grid; grid-template-columns:42px 1fr; gap:7px; align-items:start; padding:6px 0; border-top:1px solid var(--line); }
-.staff-shift-row b{ font-size:11px; color:var(--teal-700); text-transform:uppercase; letter-spacing:.04em; padding-top:4px; }
-.staff-chips{ display:flex; flex-wrap:wrap; gap:5px; }
-.staff-chip{ background:var(--teal-100); color:var(--teal-900); padding:3px 7px; border-radius:999px; font-size:11.5px; font-weight:700; }
-.staff-empty{ color:#94a8a5; font-size:11.5px; font-style:italic; padding-top:3px; }
-.station-display-control{ margin-top:22px; }
-.station-detail-columns{ align-items:start; }
-
-/* Multiple duty badges inside assignment cards */
-.assign-card{ justify-content:flex-start; min-height:154px; }
-.assign-card .card-nurse{ margin-top:28px; }
-.card-units{ display:flex; flex-wrap:wrap; gap:5px; margin-top:auto; padding-top:9px; }
-.card-unit-badge{ display:inline-flex; align-items:center; gap:3px; background:rgba(255,255,255,.20); border:1px solid rgba(255,255,255,.30); padding:4px 7px; border-radius:999px; font-size:10.5px; font-weight:750; line-height:1.15; }
-.card-unit-empty{ margin-top:auto; padding-top:9px; opacity:.75; }
-.assign-card.unassigned .card-unit-badge{ background:#eef5f4; border-color:var(--line); color:#657d79; }
-
-.station-quick-links{ margin-top:20px; display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:8px; font-size:13px; color:#64807c; }
-.station-quick-links a{ color:var(--teal-700); text-decoration:none; font-weight:800; border:1px solid var(--line); border-radius:999px; padding:6px 10px; background:#fff; }
-.station-quick-links a:hover{ background:var(--teal-100); }
-
-@media (max-width:1100px){ .station-overview-grid{ grid-template-columns:repeat(2,minmax(210px,1fr)); } }
-@media (max-width:620px){ .station-overview-grid{ grid-template-columns:1fr; } .unit-picker-menu{ min-width:280px; max-width:88vw; } .board-meta{ grid-template-columns:1fr; } }
-body:not(.view-mode) .shift-panel{ overflow:visible; }
-body:not(.view-mode) .shift-head{ border-radius:var(--radius) var(--radius) 0 0; }
-body:not(.view-mode) .shift-foot{ border-radius:0 0 var(--radius) var(--radius); }
-
-/* ---- Firebase / authentication additions ---- */
-.user-bar{display:flex;align-items:center;gap:9px;flex-wrap:wrap;justify-content:flex-end;color:#e9f5f3;font-size:13px}
-.role-badge{display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em}
-.btn-small{padding:7px 10px!important;font-size:12px!important}
-.auth-page{min-height:100vh;background:linear-gradient(135deg,var(--teal-900),var(--teal-700));display:grid;place-items:center;padding:24px}
-.auth-shell{width:min(470px,100%)}
-.auth-card{background:#fff;border-radius:18px;padding:30px;box-shadow:0 22px 60px rgba(0,0,0,.25)}
-.auth-brand{display:flex;align-items:center;gap:12px;margin-bottom:24px}.auth-brand .mark{background:var(--teal-700);color:#fff;border-radius:8px;padding:10px;font-weight:900}.auth-brand h1{font-size:18px;margin:2px 0 0;color:var(--ink)}
-.auth-card h2{font-size:28px;margin:0 0 6px;color:var(--ink)}.auth-copy{color:var(--muted);font-size:14px;line-height:1.55;margin:0 0 22px}
-.auth-form{display:grid;gap:14px}.auth-form label{display:grid;gap:6px;font-size:12px;font-weight:800;color:var(--ink);text-transform:uppercase;letter-spacing:.04em}.auth-form input{width:100%;border:1px solid var(--line);border-radius:8px;padding:11px 12px;font:inherit;text-transform:none;letter-spacing:normal}.auth-submit{justify-content:center;margin-top:4px}
-.auth-message{min-height:22px;margin-top:13px;color:var(--teal-700);font-size:13px}.auth-switch{margin:12px 0 0;font-size:13px;color:var(--muted)}.auth-switch a{color:var(--teal-700);font-weight:800}
-.cloud-panel{display:flex;align-items:center;justify-content:space-between;gap:18px;background:var(--paper-2);border:1px solid var(--line);border-radius:12px;padding:15px 18px;margin-bottom:16px;box-shadow:var(--shadow)}
-.cloud-actions{display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap}.date-picker-label{display:grid;gap:5px;color:var(--muted);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em}.date-picker-label input,.date-picker-label select,.role-select{border:1px solid var(--line);background:#fff;border-radius:7px;padding:9px 10px;color:var(--ink);font:inherit;min-width:170px}
-.locked-banner{margin-bottom:15px}.disabled-link{pointer-events:none;opacity:.48}.empty-cloud-state{min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:#fff;border:1px dashed var(--line);border-radius:12px;color:var(--muted);margin:16px 0}.empty-cloud-state strong{color:var(--ink);font-size:18px}
-.admin-wrap{max-width:1100px}.admin-hero{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:15px}.admin-hero h2{margin:4px 0 6px}.admin-hero p{margin:0;color:var(--muted)}.users-table-wrap{overflow:auto;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}.users-table{border-collapse:collapse;width:100%;min-width:720px}.users-table th,.users-table td{text-align:left;padding:13px 14px;border-bottom:1px solid var(--line);font-size:13px}.users-table th{background:var(--paper-2);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}.users-table .role-badge{background:var(--teal-100);color:var(--teal-700);border-color:var(--line)}
-@media(max-width:760px){.topbar{align-items:flex-start;gap:10px}.user-bar{justify-content:flex-start}.cloud-panel,.admin-hero{align-items:stretch;flex-direction:column}.cloud-actions{align-items:stretch}.date-picker-label input,.date-picker-label select{width:100%}.auth-card{padding:22px}}
-
-.topbar .btn-ghost{color:#fff;border-color:rgba(255,255,255,.28)}
-.topbar .btn-ghost:hover{background:rgba(255,255,255,.1)}
-.choice-card.admin h2,.choice-card.admin .go{color:var(--teal-700)}
-
-/* ---------- Single-file SPA additions ---------- */
-[hidden]{display:none!important}.app-screen{display:none}.app-screen.active{display:block}.nav-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.nav-btn{background:transparent;border:1px solid rgba(255,255,255,.28);color:white;border-radius:8px;padding:6px 11px;cursor:pointer;font:inherit}.nav-btn:hover{background:rgba(255,255,255,.08)}
-.auth-page-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px;background:linear-gradient(140deg,#e4f2f0 0%,#f6f8f7 55%,#fbeee0 100%)}.auth-tabs{display:flex;gap:8px;margin:18px 0}.auth-tabs button{flex:1}.auth-card{max-width:470px;width:100%}.auth-note{font-size:12.5px;color:#647b78;line-height:1.5;margin-top:14px}.admin-bootstrap-note{padding:10px 12px;border-radius:8px;background:#fbeee0;color:#74471a;font-size:12.5px;margin-top:14px}.home-role-summary{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:16px}.home-role-summary span{font-size:12.5px;padding:5px 9px;border-radius:999px;background:var(--teal-100);color:var(--teal-900)}
-.view-toolbar-actions{display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap}.inline-select{min-width:180px}.empty-note{padding:22px;text-align:center;color:#607875}.message-box{min-height:22px;font-size:13px;color:#5d7471;margin-top:8px}.message-box.error{color:var(--red)}.message-box.ok{color:var(--teal-700)}
-@media(max-width:700px){.topbar{align-items:flex-start;flex-direction:column}.user-bar{width:100%;justify-content:flex-start;flex-wrap:wrap}.page-wrap{padding:14px}.assign-table{min-width:720px}.shift-panel{overflow:auto}.cloud-panel{align-items:stretch;flex-direction:column}.cloud-actions{align-items:stretch}.date-picker-label{width:100%}.date-picker-label input,.date-picker-label select{width:100%}}
-
+*{box-sizing:border-box}html,body{margin:0;background:var(--paper);color:var(--ink);font-family:"Segoe UI",Arial,sans-serif;min-height:100%}button,input,select{font:inherit}
+[hidden]{display:none!important}.app-screen{display:none}.app-screen.active{display:block}
+.topbar{position:sticky;top:0;z-index:40;background:var(--teal-900);color:white;padding:11px 18px;display:flex;justify-content:space-between;align-items:center;gap:14px;box-shadow:0 4px 16px rgba(0,0,0,.12)}
+.brand{display:flex;align-items:center;gap:10px}.mark{font-weight:900;letter-spacing:.08em;font-size:13px;color:#ffd59b;border:1px solid rgba(255,255,255,.3);padding:3px 8px;border-radius:999px}.brand h1{font-size:16px;margin:0}.userbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}.role-badge{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;font-weight:900;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22)}
+.nav-btn{border:1px solid rgba(255,255,255,.28);background:transparent;color:white;border-radius:8px;padding:6px 10px;cursor:pointer}.nav-btn:hover{background:rgba(255,255,255,.1)}.notif-btn{position:relative}.notif-count{position:absolute;right:-6px;top:-7px;min-width:18px;height:18px;padding:0 4px;border-radius:999px;background:#e2553f;color:white;font-size:10px;font-weight:900;display:flex;align-items:center;justify-content:center;border:2px solid var(--teal-900)}
+.auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px;background:linear-gradient(140deg,#e4f2f0 0%,#f6f8f7 55%,#fbeee0 100%)}.auth-card{width:min(490px,100%);background:white;border:1px solid var(--line);border-radius:16px;padding:28px;box-shadow:var(--shadow)}.auth-card h1{margin:5px 0 6px;color:var(--teal-900)}.auth-copy{color:var(--muted);line-height:1.5;font-size:13px}.auth-tabs{display:flex;gap:8px;margin:20px 0}.auth-tabs button{flex:1}.form-grid{display:grid;gap:12px}.form-grid label,.field{display:grid;gap:5px;font-size:12px;font-weight:800;color:var(--teal-700)}input,select{border:1px solid var(--line);background:white;color:var(--ink);border-radius:8px;padding:9px 10px}input:focus,select:focus{outline:2px solid rgba(31,138,130,.28);border-color:var(--teal-500)}.auth-message{min-height:22px;font-size:13px;margin-top:10px}.note{font-size:12px;color:var(--muted);line-height:1.5}.admin-note{background:var(--amber-100);color:#75481b;padding:10px 12px;border-radius:8px;margin-top:14px;font-size:12.5px}
+.btn{border:0;border-radius:8px;padding:9px 13px;cursor:pointer;font-weight:800}.btn-primary{background:var(--teal-700);color:white}.btn-primary:hover{background:var(--teal-900)}.btn-ghost{background:white;color:var(--teal-700);border:1px solid var(--line)}.btn-danger{background:var(--red-100);color:var(--red);border:1px solid #f1c4b9}.btn-amber{background:var(--amber-100);color:#7a4919;border:1px solid #efd4b4}.btn-small{padding:6px 9px;font-size:12px}.btn:disabled{opacity:.48;cursor:not-allowed}
+.page{max-width:1240px;margin:0 auto;padding:22px}.hero{background:white;border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);margin-bottom:18px}.hero h2{margin:3px 0 7px;color:var(--teal-900)}.eyebrow,.kicker{text-transform:uppercase;letter-spacing:.11em;font-size:10.5px;font-weight:900;color:var(--teal-700)}.muted{color:var(--muted)}.grid{display:grid;gap:16px}.cards{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}.card{background:white;border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}button.card{text-align:left;cursor:pointer}.card h3{margin:6px 0 6px;color:var(--teal-900)}.card p{color:var(--muted);font-size:13px;line-height:1.45;margin:0}.card:hover{border-color:var(--teal-500)}.status{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;padding:5px 8px;border-radius:999px}.status.pending{background:var(--amber-100);color:#7a4919}.status.ok{background:var(--green-100);color:var(--green)}.status.bad{background:var(--red-100);color:var(--red)}
+.toolbar{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;background:white;border:1px solid var(--line);padding:14px;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:16px}.toolbar-group{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}.toolbar .field{min-width:190px}.message{font-size:13px;min-height:20px;color:var(--muted)}
+.station-overview{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:13px 0 20px}.station-card{background:white;border:1px solid var(--line);border-radius:11px;padding:13px;box-shadow:var(--shadow)}.station-card.active{border:2px solid var(--teal-500);padding:12px}.station-card h4{margin:0 0 9px}.chips{display:flex;gap:5px;flex-wrap:wrap}.chip{background:var(--teal-100);color:var(--teal-900);border:1px solid var(--line);border-radius:999px;padding:4px 7px;font-size:11px;font-weight:700}.chip.night{background:var(--amber-100);color:#7a4919}.station-tabs{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}.station-tab{border:1px solid var(--line);background:white;color:var(--teal-900);padding:8px 11px;border-radius:8px;cursor:pointer;font-weight:800}.station-tab.active{background:var(--teal-700);border-color:var(--teal-700);color:white}.shift-columns{display:grid;grid-template-columns:1fr 1fr;gap:16px}.shift-panel{background:white;border:1px solid var(--line);border-radius:var(--radius);padding:15px;box-shadow:var(--shadow)}.shift-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.shift-head h3{margin:0}.assignment-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}.assignment-card{min-height:130px;border-radius:10px;padding:13px;background:linear-gradient(155deg,var(--teal-700),var(--teal-900));color:white;display:flex;flex-direction:column}.assignment-card.empty{background:white;color:var(--muted);border:1px dashed var(--line)}.assignment-card .staff{font-size:17px;font-weight:900}.assignment-card .patient{font-size:12px;margin-top:6px;opacity:.92}.duty-badges{display:flex;gap:4px;flex-wrap:wrap;margin-top:auto;padding-top:10px}.duty{font-size:10.5px;font-weight:800;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.15);padding:3px 6px;border-radius:999px}.assignment-card.empty .duty{background:var(--teal-100);color:var(--teal-900);border-color:var(--line)}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:10px;background:white}table{width:100%;border-collapse:collapse;min-width:780px}th,td{padding:9px;border-bottom:1px solid var(--line);text-align:left;font-size:12.5px}th{background:#f0f6f5;color:var(--teal-700);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em}td input{width:100%}.idx{width:42px;text-align:center;color:var(--muted);font-weight:800}.action-cell{width:48px;text-align:center}.row-remove{border:0;background:var(--red-100);color:var(--red);width:29px;height:29px;border-radius:7px;cursor:pointer;font-weight:900}.empty-row{text-align:center;padding:24px;color:var(--muted)}
+.unit-picker{position:relative}.unit-picker summary{list-style:none;border:1px solid var(--line);padding:8px 28px 8px 9px;border-radius:7px;cursor:pointer;background:white;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:relative}.unit-picker summary::-webkit-details-marker{display:none}.unit-picker summary::after{content:"▾";position:absolute;right:9px}.unit-picker-menu{position:absolute;z-index:30;top:calc(100% + 4px);left:0;width:max(280px,100%);max-width:420px;max-height:330px;overflow:auto;background:white;border:1px solid var(--line);border-radius:9px;box-shadow:0 13px 32px rgba(13,59,62,.2);padding:6px}.unit-picker-menu label{display:flex;gap:8px;align-items:center;padding:7px;border-radius:6px;cursor:pointer}.unit-picker-menu label:hover{background:var(--teal-100)}.unit-picker-menu input{width:auto}
+.settings-layout{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(330px,.9fr);gap:16px}.settings-list{display:grid;gap:8px}.settings-row{display:grid;grid-template-columns:42px 1fr auto;gap:8px;align-items:center}.settings-row .num{font-weight:900;color:var(--teal-700);text-align:center}.section-head{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:12px}.section-head h3{margin:0}.member-table{min-width:620px}.request-card{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:11px;border:1px solid var(--line);border-radius:9px;background:white}.request-card strong{display:block}.request-actions{display:flex;gap:7px;flex-wrap:wrap}.stack{display:grid;gap:10px}
+.admin-unit-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}.admin-unit-card{background:white;border:1px solid var(--line);border-radius:11px;padding:14px}.admin-unit-card h3{margin:0 0 5px}.member-mini{margin:9px 0;display:flex;gap:5px;flex-wrap:wrap}.admin-actions{display:flex;gap:6px;flex-wrap:wrap}.role-select{min-width:150px}
+.notification-panel{position:fixed;right:16px;top:64px;z-index:70;width:min(430px,calc(100vw - 32px));max-height:75vh;overflow:auto;background:white;border:1px solid var(--line);border-radius:12px;box-shadow:0 18px 48px rgba(0,0,0,.2)}.notification-head{position:sticky;top:0;background:white;border-bottom:1px solid var(--line);padding:12px;display:flex;justify-content:space-between;align-items:center}.notification-list{padding:8px}.notification-item{border-bottom:1px solid var(--line);padding:10px;border-radius:8px}.notification-item.unread{background:#eef8f6}.notification-item .time{font-size:10.5px;color:var(--muted);margin-top:4px}.notification-item p{margin:4px 0 0;font-size:12.5px;line-height:1.4}.notification-empty{padding:24px;text-align:center;color:var(--muted)}
+.lock-banner{background:var(--amber-100);border:1px solid #efd4b4;color:#75481b;border-radius:9px;padding:10px 12px;margin-bottom:12px;font-size:13px}.create-unit{max-width:650px}.join-list{display:grid;gap:8px;margin-top:12px}.join-unit-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px;border:1px solid var(--line);border-radius:9px;background:white}.unit-context{font-size:12px;color:#cfe7e3;max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:900px){.shift-columns,.settings-layout{grid-template-columns:1fr}.topbar{align-items:flex-start;flex-direction:column}.userbar{justify-content:flex-start}.unit-context{max-width:100%}}@media(max-width:600px){.page{padding:12px}.auth-card{padding:20px}.toolbar{align-items:stretch}.toolbar-group{width:100%}.toolbar .field{width:100%}.toolbar .field select,.toolbar .field input{width:100%}.request-card,.join-unit-row{align-items:flex-start;flex-direction:column}}
 </style>
 </head>
 <body>
-<div id="loadingScreen" class="auth-page-wrap"><section class="auth-card"><div class="auth-brand"><span class="mark">NAB</span><div><div class="section-kicker">Firebase cloud board</div><h1>Nursing Assignment Board</h1></div></div><p class="auth-copy">Connecting securely…</p></section></div>
+<div id="loadingScreen" class="auth-wrap"><div class="auth-card"><span class="mark" style="background:var(--teal-900)">NAB</span><h1>Connecting…</h1><p class="auth-copy">Loading Firebase Authentication and Firestore.</p></div></div>
 
 <section id="authScreen" class="app-screen">
-  <div class="auth-page-wrap">
-    <main class="auth-card">
-      <div class="auth-brand"><span class="mark">NAB</span><div><div class="section-kicker">Secure cloud board</div><h1>Nursing Assignment Board</h1></div></div>
-      <div class="auth-tabs"><button id="loginTabBtn" class="btn btn-primary" type="button">Sign in</button><button id="registerTabBtn" class="btn btn-ghost" type="button">Register</button></div>
-      <form id="loginForm" class="auth-form">
-        <h2>Sign in</h2>
-        <label>Email<input id="loginEmail" type="email" autocomplete="username" required></label>
-        <label>Password<input id="loginPassword" type="password" autocomplete="current-password" required></label>
-        <button class="btn btn-primary auth-submit" type="submit">Sign in</button>
-      </form>
-      <form id="registerForm" class="auth-form" hidden>
-        <h2>Create account</h2>
-        <p class="auth-copy">New users start as <strong>Staff</strong>. The administrator can promote them to <strong>Supervisor</strong>.</p>
-        <label>Name<input id="registerName" type="text" autocomplete="name" maxlength="80" required></label>
-        <label>Email<input id="registerEmail" type="email" autocomplete="username" required></label>
-        <label>Password<input id="registerPassword" type="password" autocomplete="new-password" minlength="8" required></label>
-        <label>Confirm password<input id="registerConfirm" type="password" autocomplete="new-password" minlength="8" required></label>
-        <button class="btn btn-primary auth-submit" type="submit">Register</button>
-      </form>
-      <div id="authMessage" class="auth-message" aria-live="polite"></div>
-      <div class="admin-bootstrap-note"><strong>Administrator:</strong> Mahmoud Hamouda · mahmod.hamoda@gmail.com.</div>
-      <p class="auth-note">This app requires Email Registration<strong>mhmnursing-4375d</strong>.</p>
-    </main>
-  </div>
+  <div class="auth-wrap"><main class="auth-card">
+    <div class="eyebrow">Firebase cloud board</div><h1>Nursing Assignment Board</h1><p class="auth-copy">Secure unit-based assignments with role-controlled access.</p>
+    <div class="auth-tabs"><button id="loginTab" class="btn btn-primary" type="button">Sign in</button><button id="registerTab" class="btn btn-ghost" type="button">Register</button></div>
+    <form id="loginForm" class="form-grid">
+      <label>Email<input id="loginEmail" type="email" autocomplete="username" required></label>
+      <label>Password<input id="loginPassword" type="password" autocomplete="current-password" required></label>
+      <button class="btn btn-primary" type="submit">Sign in</button>
+    </form>
+    <form id="registerForm" class="form-grid" hidden>
+      <label>Name<input id="registerName" type="text" maxlength="80" autocomplete="name" required></label>
+      <label>Email<input id="registerEmail" type="email" autocomplete="username" required></label>
+      <label>I am registering as<select id="registerRequestedRole"><option value="staff">Staff</option><option value="unit_manager">Unit Manager</option></select></label>
+      <p class="note" style="margin:0">Staff request membership in a unit after signing in. Unit Manager registrations require Administrator approval before a unit can be created.</p>
+      <label>Password<input id="registerPassword" type="password" minlength="8" autocomplete="new-password" required></label>
+      <label>Confirm password<input id="registerConfirm" type="password" minlength="8" autocomplete="new-password" required></label>
+      <button class="btn btn-primary" type="submit">Create account</button>
+    </form>
+    <div id="authMessage" class="auth-message" aria-live="polite"></div>
+    <div class="admin-note"><strong>Administrator:</strong> Mahmoud Hamouda · mahmod.hamoda@gmail.com. The administrator password stays only in Firebase Authentication and is not stored in this HTML.</div>
+  </main></div>
 </section>
 
-<div id="appShell" class="app-screen">
-  <div class="topbar">
-    <div class="brand"><span class="mark">NAB</span><h1 id="topTitle">Nursing Assignment Board</h1></div>
-    <div class="user-bar"><span id="topUser"></span><span id="topRole" class="role-badge"></span><div class="nav-actions"><button class="nav-btn" data-go="home">Home</button><button class="nav-btn" data-go="view">View</button><button id="navEdit" class="nav-btn" data-go="edit">Edit</button><button id="navAdmin" class="nav-btn" data-go="admin">Users</button><button id="logoutBtn" class="nav-btn">Sign out</button></div></div>
-  </div>
+<section id="appShell" class="app-screen">
+  <header class="topbar">
+    <div class="brand"><span class="mark">NAB</span><div><h1 id="topTitle">Nursing Assignment Board</h1><div id="unitContext" class="unit-context"></div></div></div>
+    <div class="userbar">
+      <span id="topUser"></span><span id="topRole" class="role-badge"></span>
+      <label id="adminUnitPickerWrap" hidden><select id="adminUnitPicker" title="Administrator active unit"></select></label>
+      <button class="nav-btn" data-go="home">Home</button><button id="navView" class="nav-btn" data-go="view">Board</button><button id="navEdit" class="nav-btn" data-go="edit">Edit</button><button id="navUnit" class="nav-btn" data-go="unit">Unit</button><button id="navAdmin" class="nav-btn" data-go="admin">Admin</button>
+      <button id="notificationBtn" class="nav-btn notif-btn" type="button">Notifications<span id="notifCount" class="notif-count" hidden>0</span></button>
+      <button id="logoutBtn" class="nav-btn" type="button">Sign out</button>
+    </div>
+  </header>
 
-  <main id="homeScreen" class="inner-screen">
-    <div class="home-wrap">
-      <div class="home-header"><div class="eyebrow">Four nurse stations · Firestore · real-time updates</div><h1>One overview, four station boards</h1><p>Assignments are stored online by date. Staff can view; supervisors can create and update today or future dates; previous dates are permanently read-only.</p><div class="home-role-summary"><span>Staff: view only</span><span>Supervisor: edit today/future</span><span>Administrator: manage roles</span></div></div>
-      <div class="choice-grid">
-        <button class="choice-card view" data-go="view"><div class="num">01 · VIEW</div><h2>View Assignments</h2><p>Open today's board or select a saved date from history.</p><div class="go">Open board →</div></button>
-        <button id="homeEdit" class="choice-card edit" data-go="edit"><div class="num">02 · EDIT</div><h2>Edit Assignment</h2><p>Edit all four stations and assign multiple unit duties to each staff member.</p><div class="go">Open editor →</div></button>
-        <button id="homeAdmin" class="choice-card admin" data-go="admin"><div class="num">03 · ADMIN</div><h2>User Roles</h2><p>Assign registered users as Staff or Supervisor.</p><div class="go">Manage users →</div></button>
+  <main id="homeScreen" class="inner-screen page">
+    <section class="hero"><div class="eyebrow">Role-aware workspace</div><h2 id="homeGreeting">Welcome</h2><p id="homeSummary" class="muted"></p></section>
+    <section id="homeActions" class="grid cards"></section>
+    <section id="homeSpecial" style="margin-top:16px"></section>
+  </main>
+
+  <main id="viewScreen" class="inner-screen page" hidden>
+    <div class="toolbar"><div><div class="kicker">Cloud Firestore · live board</div><strong id="viewStatus">Loading…</strong></div><div class="toolbar-group"><label class="field">Assignment history<select id="viewDateSelect"></select></label><button id="viewEditBtn" class="btn btn-ghost">Edit selected date</button></div></div>
+    <section class="hero" style="padding:15px"><div class="toolbar-group"><div><div class="kicker">Unit</div><strong id="viewUnitName">—</strong></div><div><div class="kicker">Date</div><strong id="viewDateText">—</strong></div><div><div class="kicker">Last update</div><span id="viewUpdated" class="muted">—</span></div></div></section>
+    <section><div class="section-head"><div><div class="kicker">Visible within this unit</div><h3>Station Staffing Overview</h3></div></div><div id="stationOverview" class="station-overview"></div></section>
+    <section><div class="section-head"><h3 id="selectedStationTitle">Station Assignment</h3></div><div id="viewStationTabs" class="station-tabs"></div><div class="shift-columns"><div class="shift-panel"><div class="shift-head"><h3>Day Shift</h3><span id="dayViewCount" class="muted"></span></div><div id="dayViewGrid" class="assignment-grid"></div></div><div class="shift-panel"><div class="shift-head"><h3>Night Shift</h3><span id="nightViewCount" class="muted"></span></div><div id="nightViewGrid" class="assignment-grid"></div></div></div></section>
+  </main>
+
+  <main id="editScreen" class="inner-screen page" hidden>
+    <div class="toolbar"><div><div class="kicker">Unit assignment editor</div><strong id="editStatus">Loading…</strong><div id="editDetail" class="message"></div></div><div class="toolbar-group"><label class="field">Assignment date<input id="editDate" type="date"></label><button id="saveBtn" class="btn btn-primary">Save now</button><button class="btn btn-ghost" data-go="view">Preview board</button></div></div>
+    <div id="lockBanner" class="lock-banner" hidden>Past assignments are permanently read-only after the date has finished in Asia/Riyadh.</div>
+    <fieldset id="editorFieldset" style="border:0;padding:0;margin:0">
+      <section class="hero" style="padding:15px"><div class="kicker">Unit</div><strong id="editUnitName">—</strong><div id="editStationTabs" class="station-tabs"></div></section>
+      <div class="shift-columns">
+        <section class="shift-panel"><div class="shift-head"><div><h3 id="editDayTitle">Day Shift</h3><span id="editDayCount" class="muted">0 staff</span></div><button id="addDayStaff" class="btn btn-primary btn-small" type="button">+ Add staff</button></div><div class="table-wrap"><table><thead><tr><th>#</th><th>Staff</th><th>Patient / Room</th><th>Unit Assignments</th><th></th></tr></thead><tbody id="dayEditBody"></tbody></table></div></section>
+        <section class="shift-panel"><div class="shift-head"><div><h3 id="editNightTitle">Night Shift</h3><span id="editNightCount" class="muted">0 staff</span></div><button id="addNightStaff" class="btn btn-amber btn-small" type="button">+ Add staff</button></div><div class="table-wrap"><table><thead><tr><th>#</th><th>Staff</th><th>Patient / Room</th><th>Unit Assignments</th><th></th></tr></thead><tbody id="nightEditBody"></tbody></table></div></section>
       </div>
-      <div class="station-quick-links"><span>Direct station view:</span><button class="btn btn-ghost btn-small station-jump" data-station="1">Station 1</button><button class="btn btn-ghost btn-small station-jump" data-station="2">Station 2</button><button class="btn btn-ghost btn-small station-jump" data-station="3">Station 3</button><button class="btn btn-ghost btn-small station-jump" data-station="4">Station 4</button></div>
-      <div class="home-footnote">Firebase project: mhmnursing-4375d · Assignment timezone: Asia/Riyadh</div>
+      <datalist id="unitMembersDatalist"></datalist>
+    </fieldset>
+  </main>
+
+  <main id="unitScreen" class="inner-screen page" hidden>
+    <div class="toolbar"><div><div class="kicker">Unit management</div><strong id="unitManageTitle">Unit</strong><div id="unitManageMessage" class="message"></div></div><button id="saveUnitSettings" class="btn btn-primary">Save unit settings</button></div>
+    <div class="settings-layout">
+      <div class="stack">
+        <section class="card"><div class="section-head"><h3>Unit details</h3></div><label class="field">Unit name<input id="unitNameInput" maxlength="100"></label></section>
+        <section class="card"><div class="section-head"><div><h3>Stations</h3><div class="note">Unit Manager can change the station count and station names.</div></div><button id="addStationBtn" class="btn btn-ghost btn-small">+ Add station</button></div><div class="toolbar-group" style="margin-bottom:10px"><label class="field" style="min-width:140px">Station count<input id="stationCountInput" type="number" min="1" max="20"></label><button id="applyStationCountBtn" class="btn btn-ghost btn-small">Apply count</button></div><div id="stationSettingsList" class="settings-list"></div></section>
+        <section class="card"><div class="section-head"><div><h3>Unit assignment options</h3><div class="note">These names appear in the multiple-selection dropdown for staff assignments.</div></div><button id="addDutyBtn" class="btn btn-ghost btn-small">+ Add unit assignment</button></div><div id="dutySettingsList" class="settings-list"></div></section>
+      </div>
+      <div class="stack">
+        <section class="card"><div class="section-head"><div><h3>Unit members</h3><div class="note">Unit Manager can promote unit staff to Supervisor or return a Supervisor to Staff.</div></div><button id="refreshUnitBtn" class="btn btn-ghost btn-small">Refresh</button></div><div class="table-wrap"><table class="member-table"><thead><tr><th>Name</th><th>Email</th><th>Role</th></tr></thead><tbody id="unitMembersBody"></tbody></table></div></section>
+        <section class="card"><div class="section-head"><div><h3>Join requests</h3><div class="note">Pending requests from staff who want to join this unit.</div></div></div><div id="joinRequestsList" class="stack"></div></section>
+      </div>
     </div>
   </main>
 
-  <main id="viewScreen" class="inner-screen" hidden>
-    <div class="page-wrap board-wide">
-      <div class="cloud-panel board-cloud-panel"><div><div class="section-kicker">Cloud Firestore · live updates</div><strong id="viewStatusText">Connecting…</strong><div class="hint">Assignment dates are shown newest first.</div></div><div class="view-toolbar-actions"><label class="date-picker-label inline-select">Assignment history<select id="viewDateSelect"></select></label><button id="viewEditBtn" class="btn btn-ghost" type="button">Edit selected date</button></div></div>
-      <div class="meta-row board-meta"><div class="meta-field"><label>Unit / Ward</label><input id="viewUnitName" type="text" readonly></div><div class="meta-field"><label>Date</label><input id="viewDateField" type="text" readonly></div><div class="meta-updated" id="viewUpdatedNote">Waiting for data…</div></div>
-      <section class="staffing-overview"><div class="overview-head"><div><div class="section-kicker">Visible at every nurse station</div><h2>Station Staffing Overview</h2></div><div class="overview-note">Who is assigned to each station</div></div><div class="station-overview-grid" id="stationOverviewGrid"></div></section>
-      <section class="station-display-control"><div><div class="section-kicker">This screen</div><h2 id="selectedStationHeading">Station 1 Assignment</h2></div><div class="station-screen-tabs" id="viewStationTabs"></div></section>
-      <div id="viewEmptyState" class="empty-cloud-state" style="display:none"><strong>No assignment saved for this date.</strong><span>A supervisor can create it from Edit Assignment.</span></div>
-      <div class="shift-columns station-detail-columns" id="viewStationDetails"><div class="shift-panel"><div class="shift-head day"><h3>Day Shift</h3><span class="hours" id="viewDayCount">— slots</span></div><div class="shift-grid" id="viewDayGrid"></div></div><div class="shift-panel"><div class="shift-head night"><h3>Night Shift</h3><span class="hours" id="viewNightCount">— slots</span></div><div class="shift-grid" id="viewNightGrid"></div></div></div>
-    </div>
+  <main id="adminScreen" class="inner-screen page" hidden>
+    <section class="hero"><div class="eyebrow">Administrator access</div><h2>All Units & Users</h2><p class="muted">View every unit and member, approve Unit Managers, change roles, open any unit board, and modify assignments.</p></section>
+    <section class="card" style="margin-bottom:16px"><div class="section-head"><div><h3>Registered users</h3><div id="adminUserMessage" class="note"></div></div><button id="refreshAdminBtn" class="btn btn-ghost btn-small">Refresh</button></div><div class="table-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Requested</th><th>Current role</th><th>Unit</th><th>Actions</th></tr></thead><tbody id="adminUsersBody"></tbody></table></div></section>
+    <section class="card"><div class="section-head"><div><h3>Units and members</h3><div class="note">Administrator can open and manage any unit.</div></div></div><div id="adminUnitsGrid" class="admin-unit-grid"></div></section>
   </main>
+</section>
 
-  <main id="editScreen" class="inner-screen" hidden>
-    <div class="page-wrap">
-      <div class="cloud-panel"><div><div class="section-kicker">Cloud Firestore</div><strong id="cloudStatus">Loading assignment…</strong><div class="hint" id="cloudDetail">Changes save automatically after you stop typing.</div></div><div class="cloud-actions"><label class="date-picker-label">Assignment date<input type="date" id="editDateField"></label><button class="btn btn-primary" id="saveBtn" type="button">Save now</button></div></div>
-      <div id="lockedBanner" class="support-banner locked-banner" style="display:none"><strong>Past assignment locked.</strong> This date has finished in Asia/Riyadh and cannot be modified.</div>
-      <fieldset id="editorArea" style="border:none;padding:0;margin:0;"><div class="meta-row"><div class="meta-field"><label for="editUnitName">Unit / Ward</label><input type="text" id="editUnitName" placeholder="e.g. ICU"></div><div class="meta-updated" id="editUpdatedNote">Not saved yet</div></div>
-        <section class="station-editor-shell"><div class="section-kicker">Choose station to edit</div><div class="station-tabs" id="editStationTabs"></div><div class="station-name-row"><div class="meta-field station-name-field"><label for="stationName">Station display name</label><input type="text" id="stationName" placeholder="Station 1"></div><div class="station-help">Each staff member can have <strong>multiple unit assignments</strong>. The list closes when you click outside it.</div></div></section>
-        <div class="shift-columns"><div class="shift-panel"><div class="shift-head day"><h3><span id="editDayStationTitle">Station 1</span> · Day Shift</h3><span class="hours" id="editDayCount">12 slots</span></div><table class="assign-table"><thead><tr><th class="col-idx">#</th><th class="col-nurse">Staff</th><th class="col-patient">Patient Assignment</th><th class="col-unit">Unit Assignments</th><th class="col-action"></th></tr></thead><tbody id="editDayBody"></tbody></table><div class="shift-foot"><button type="button" class="add-slot-btn" id="dayAddBtn">+ Add slot</button></div></div>
-        <div class="shift-panel"><div class="shift-head night"><h3><span id="editNightStationTitle">Station 1</span> · Night Shift</h3><span class="hours" id="editNightCount">12 slots</span></div><table class="assign-table"><thead><tr><th class="col-idx">#</th><th class="col-nurse">Staff</th><th class="col-patient">Patient Assignment</th><th class="col-unit">Unit Assignments</th><th class="col-action"></th></tr></thead><tbody id="editNightBody"></tbody></table><div class="shift-foot"><button type="button" class="add-slot-btn" id="nightAddBtn">+ Add slot</button></div></div></div>
-      </fieldset>
-      <div class="actions-row"><button class="btn btn-ghost" id="previewBtn" type="button">Preview selected date</button><button class="btn btn-primary" id="saveBottomBtn" type="button">Save now</button></div><div class="legend-note">Documents are stored in <strong>assignments/YYYY-MM-DD</strong>. Security rules—not only the interface—prevent writes to past dates.</div>
-    </div><div class="save-toast" id="toast">Saved to Firestore.</div>
-  </main>
-
-  <main id="adminScreen" class="inner-screen" hidden>
-    <div class="page-wrap admin-wrap"><section class="admin-hero"><div><div class="section-kicker">Administrator only</div><h2>Registered users and roles</h2><p>New registrations start as Staff. Promote a user to Supervisor to allow editing today and future assignments.</p></div><button id="refreshUsersBtn" class="btn btn-ghost">Refresh</button></section><div id="adminMessage" class="auth-message" aria-live="polite"></div><div class="users-table-wrap"><table class="users-table"><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Updated</th></tr></thead><tbody id="usersBody"></tbody></table></div></div>
-  </main>
-</div>
+<aside id="notificationPanel" class="notification-panel" hidden>
+  <div class="notification-head"><strong>Notifications</strong><div><button id="markAllReadBtn" class="btn btn-ghost btn-small">Mark all read</button><button id="closeNotificationsBtn" class="btn btn-ghost btn-small">Close</button></div></div>
+  <div id="notificationList" class="notification-list"></div>
+</aside>
 
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, updateProfile } from 'https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js';
-import { getFirestore, collection, doc, getDoc, getDocs, setDoc, updateDoc, onSnapshot, query, orderBy, serverTimestamp, runTransaction } from 'https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js';
+import { getFirestore, collection, doc, getDoc, getDocs, setDoc, updateDoc, addDoc, onSnapshot, query, where, orderBy, serverTimestamp, runTransaction, writeBatch } from 'https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js';
 
-const firebaseConfig = {
-  apiKey: 'AIzaSyCqUiYN9ce6afuDYvltijbOnb9d4uNSi-Y',
-  authDomain: 'mhmnursing-4375d.firebaseapp.com',
-  projectId: 'mhmnursing-4375d',
-  storageBucket: 'mhmnursing-4375d.firebasestorage.app',
-  messagingSenderId: '1920599544',
-  appId: '1:1920599544:web:511c97c4a584227c86c20d',
-  measurementId: 'G-S3VWMZ5QT3'
-};
-const APP_CONFIG = { administratorEmail:'mahmod.hamoda@gmail.com', administratorName:'Mahmoud Hamouda', assignmentTimeZone:'Asia/Riyadh', autoSaveDelayMs:1800 };
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-const UNIT_OPTIONS = [
-  {id:'1',label:'Narcotic',icon:'💊',color:'#7c3fae'},
-  {id:'2',label:'Floor Stock & High-Alert Medication',icon:'🧴',color:'#c97a2b'},
-  {id:'3',label:'Crash Cart',icon:'🚑',color:'#b3452f'},
-  {id:'4',label:'Intubation Kit',icon:'🫁',color:'#1f8a82'},
-  {id:'5',label:'IV Trolley',icon:'💉',color:'#146b8c'},
-  {id:'6',label:'Cleaning Schedule',icon:'🧹',color:'#0d3b3e'},
-  {id:'7',label:'Central Monitor',icon:'📈',color:'#10262b'},
-  {id:'8',label:'Dressing Trolley',icon:'🩹',color:'#8a5b3f'},
-  {id:'9',label:'Cleaning Medication',icon:'🧼',color:'#557a65'},
-  {id:'10',label:'Oxygen Cylinder',icon:'🫧',color:'#3f7796'},
-  {id:'11',label:'Ref Medication & Oral Syrup',icon:'💊',color:'#8b5a88'},
-  {id:'12',label:'POCT',icon:'🧪',color:'#567088'},
-  {id:'13',label:'Equipment',icon:'🩺',color:'#526b60'},
-  {id:'14',label:'Station Arrangement',icon:'🏥',color:'#5e6874'}
-];
-const STATION_COUNT=4, DEFAULT_SLOTS=12;
-const unitById=id=>UNIT_OPTIONS.find(u=>u.id===String(id))||null;
-const blankAssignment=()=>({nurse:'',patient:'',units:[]});
-const blankShift=(count=DEFAULT_SLOTS)=>Array.from({length:count},blankAssignment);
-const blankStation=i=>({id:`station-${i}`,name:`Station ${i}`,shifts:{day:blankShift(),night:blankShift()}});
-function defaultAssignmentData(dateId=''){return{schemaVersion:4,unitName:'',date:dateId,assignmentDate:dateId,updatedAt:null,updatedBy:null,revision:0,stations:Array.from({length:STATION_COUNT},(_,i)=>blankStation(i+1))};}
-function normalizeUnits(cell){const valid=new Set(UNIT_OPTIONS.map(u=>u.id));let ids=[];if(Array.isArray(cell?.units))ids=cell.units;else if(cell?.unit)ids=[cell.unit];return[...new Set(ids.map(String).filter(id=>valid.has(id)))];}
-function normalizeCell(cell={}){return{nurse:typeof cell.nurse==='string'?cell.nurse:'',patient:typeof cell.patient==='string'?cell.patient:'',units:normalizeUnits(cell)};}
-function normalizeShift(value){return Array.isArray(value)&&value.length?value.map(normalizeCell):[blankAssignment()];}
-function normalizeStation(station,index){station=station||{};const shifts=station.shifts||{};return{id:`station-${index}`,name:typeof station.name==='string'&&station.name.trim()?station.name.trim():`Station ${index}`,shifts:{day:normalizeShift(shifts.day),night:normalizeShift(shifts.night)}};}
-function normalizeAssignmentData(raw,fallbackDate=''){const result=defaultAssignmentData(fallbackDate);raw=raw||{};result.unitName=typeof raw.unitName==='string'?raw.unitName:'';result.assignmentDate=typeof raw.assignmentDate==='string'?raw.assignmentDate:(typeof raw.date==='string'?raw.date:fallbackDate);result.date=result.assignmentDate;result.updatedAt=raw.updatedAt||null;result.updatedBy=raw.updatedBy||null;result.revision=Number.isInteger(raw.revision)?raw.revision:0;if(Array.isArray(raw.stations))result.stations=Array.from({length:STATION_COUNT},(_,i)=>normalizeStation(raw.stations[i],i+1));else if(raw.shifts)result.stations[0]=normalizeStation({name:'Station 1',shifts:raw.shifts},1);return result;}
-function stationStaff(station,shiftName){const rows=station?.shifts?.[shiftName]||[],seen=new Set(),names=[];rows.forEach(row=>{const name=(row.nurse||'').trim(),key=name.toLocaleLowerCase();if(name&&!seen.has(key)){seen.add(key);names.push(name);}});return names;}
-function todayDateId(){const parts=new Intl.DateTimeFormat('en-CA',{timeZone:APP_CONFIG.assignmentTimeZone,year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());const m=Object.fromEntries(parts.filter(p=>p.type!=='literal').map(p=>[p.type,p.value]));return`${m.year}-${m.month}-${m.day}`;}
-const isPastDate=id=>!!id&&id<todayDateId();
-function formatTimestamp(value){if(!value)return'';const d=typeof value.toDate==='function'?value.toDate():new Date(value);if(Number.isNaN(d.getTime()))return'';return new Intl.DateTimeFormat(undefined,{dateStyle:'medium',timeStyle:'short',timeZone:APP_CONFIG.assignmentTimeZone}).format(d);}
-const isAdminEmail=email=>String(email||'').trim().toLowerCase()===APP_CONFIG.administratorEmail;
-async function ensureUserProfile(user,requestedName=''){const ref=doc(db,'users',user.uid),snap=await getDoc(ref);if(snap.exists()){const p=snap.data();return isAdminEmail(user.email)?{...p,role:'admin'}:p;}const admin=isAdminEmail(user.email);const profile={name:(admin?APP_CONFIG.administratorName:requestedName||user.displayName||user.email||'User').trim(),email:String(user.email||'').toLowerCase(),role:admin?'admin':'staff',createdAt:serverTimestamp(),updatedAt:serverTimestamp()};await setDoc(ref,profile);return{...profile,createdAt:null,updatedAt:null};}
-
-let session=null,currentSection='home',viewUnsub=null,selectedViewDate=todayDateId(),selectedStationIndex=Math.min(3,Math.max(0,parseInt(localStorage.getItem('nab-view-station')||'1',10)-1||0));
-let editData=defaultAssignmentData(),loadedEditDate=todayDateId(),activeEditStation=0,dirty=false,saving=false,saveTimer=null;
-
+const firebaseConfig={apiKey:'AIzaSyCqUiYN9ce6afuDYvltijbOnb9d4uNSi-Y',authDomain:'mhmnursing-4375d.firebaseapp.com',projectId:'mhmnursing-4375d',storageBucket:'mhmnursing-4375d.firebasestorage.app',messagingSenderId:'1920599544',appId:'1:1920599544:web:511c97c4a584227c86c20d',measurementId:'G-S3VWMZ5QT3'};
+const APP={adminEmail:'mahmod.hamoda@gmail.com',adminName:'Mahmoud Hamouda',timeZone:'Asia/Riyadh',autoSaveMs:1800};
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
 const $=id=>document.getElementById(id);
-function setAuthMessage(text,error=false){$('authMessage').textContent=text;$('authMessage').style.color=error?'#b3452f':'';}
-function showAuthTab(which){const login=which==='login';$('loginForm').hidden=!login;$('registerForm').hidden=login;$('loginTabBtn').className=login?'btn btn-primary':'btn btn-ghost';$('registerTabBtn').className=login?'btn btn-ghost':'btn btn-primary';setAuthMessage('');}
-$('loginTabBtn').addEventListener('click',()=>showAuthTab('login'));$('registerTabBtn').addEventListener('click',()=>showAuthTab('register'));
-$('loginForm').addEventListener('submit',async e=>{e.preventDefault();setAuthMessage('Signing in…');try{await signInWithEmailAndPassword(auth,$('loginEmail').value.trim(),$('loginPassword').value);}catch(err){console.error(err);setAuthMessage(err.code==='auth/invalid-credential'?'Email or password is incorrect.':`Could not sign in: ${err.message}`,true);}});
-$('registerForm').addEventListener('submit',async e=>{e.preventDefault();const name=$('registerName').value.trim(),email=$('registerEmail').value.trim(),pw=$('registerPassword').value;if(pw!==$('registerConfirm').value){setAuthMessage('Passwords do not match.',true);return;}setAuthMessage('Creating account…');try{const cred=await createUserWithEmailAndPassword(auth,email,pw);await updateProfile(cred.user,{displayName:name});await ensureUserProfile(cred.user,name);}catch(err){console.error(err);setAuthMessage(err.code==='auth/email-already-in-use'?'That email is already registered.':`Could not register: ${err.message}`,true);}});
-$('logoutBtn').addEventListener('click',()=>signOut(auth));
+const DEFAULT_DUTIES=['Narcotic','Floor Stock & High-Alert Medication','Crash Cart','Intubation Kit','IV Trolley','Cleaning Schedule','Central Monitor','Dressing Trolley','Cleaning Medication','Oxygen Cylinder','Ref Medication & Oral Syrup','POCT','Equipment','Station Arrangement'];
+const makeId=(prefix='id')=>`${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,8)}`;
+const isAdminEmail=email=>String(email||'').trim().toLowerCase()===APP.adminEmail;
+const roleLabel=r=>({admin:'Administrator',unit_manager:'Unit Manager',pending_unit_manager:'Pending Unit Manager',supervisor:'Supervisor',staff:'Staff'}[r]||r||'Staff');
+function todayId(){const p=new Intl.DateTimeFormat('en-CA',{timeZone:APP.timeZone,year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());const m=Object.fromEntries(p.filter(x=>x.type!=='literal').map(x=>[x.type,x.value]));return`${m.year}-${m.month}-${m.day}`}
+const isPast=id=>!!id&&id<todayId();
+function tsText(v){if(!v)return'—';const d=typeof v.toDate==='function'?v.toDate():new Date(v);return Number.isNaN(d.getTime())?'—':new Intl.DateTimeFormat(undefined,{dateStyle:'medium',timeStyle:'short',timeZone:APP.timeZone}).format(d)}
+function escapeText(v){return String(v??'').replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c]))}
+function clone(v){return structuredClone(v)}
+function blankAssignment(){return{nurse:'',patient:'',units:[]}}
+function defaultUnitConfig(uid,name,managerName,count=4){return{id:uid,name:name||'New Unit',managerId:uid,managerName:managerName||'',stations:Array.from({length:Math.max(1,Number(count)||4)},(_,i)=>({id:`station-${i+1}`,name:`Station ${i+1}`})),unitAssignments:DEFAULT_DUTIES.map((label,i)=>({id:`duty-${i+1}`,label})),createdAt:null,updatedAt:null}}
+function normalizeUnit(id,data={}){return{id,name:String(data.name||'Unit'),managerId:String(data.managerId||id),managerName:String(data.managerName||''),stations:Array.isArray(data.stations)&&data.stations.length?data.stations.map((s,i)=>({id:String(s?.id||`station-${i+1}`),name:String(s?.name||`Station ${i+1}`)})):[{id:'station-1',name:'Station 1'}],unitAssignments:Array.isArray(data.unitAssignments)?data.unitAssignments.map((d,i)=>({id:String(d?.id||`duty-${i+1}`),label:String(d?.label||`Duty ${i+1}`)})).filter(d=>d.label.trim()):[],createdAt:data.createdAt||null,updatedAt:data.updatedAt||null}}
+function defaultAssignment(dateId,unit){return{schemaVersion:5,unitId:unit.id,unitName:unit.name,assignmentDate:dateId,date:dateId,revision:0,updatedAt:null,updatedBy:null,unitAssignmentsSnapshot:clone(unit.unitAssignments),stations:unit.stations.map(s=>({id:s.id,name:s.name,shifts:{day:[],night:[]}}))}}
+function normalizeCell(c={}){return{nurse:typeof c.nurse==='string'?c.nurse:'',patient:typeof c.patient==='string'?c.patient:'',units:Array.isArray(c.units)?[...new Set(c.units.map(String))]:[]}}
+function normalizeAssignment(raw,dateId,unitFallback){if(!raw)return defaultAssignment(dateId,unitFallback);const snap=Array.isArray(raw.unitAssignmentsSnapshot)?raw.unitAssignmentsSnapshot.map((d,i)=>({id:String(d?.id||`duty-${i+1}`),label:String(d?.label||`Duty ${i+1}`)})):clone(unitFallback.unitAssignments);const stations=Array.isArray(raw.stations)&&raw.stations.length?raw.stations.map((s,i)=>({id:String(s?.id||`station-${i+1}`),name:String(s?.name||`Station ${i+1}`),shifts:{day:Array.isArray(s?.shifts?.day)?s.shifts.day.map(normalizeCell):[],night:Array.isArray(s?.shifts?.night)?s.shifts.night.map(normalizeCell):[]}})):defaultAssignment(dateId,unitFallback).stations;return{schemaVersion:5,unitId:String(raw.unitId||unitFallback.id),unitName:String(raw.unitName||unitFallback.name),assignmentDate:String(raw.assignmentDate||raw.date||dateId),date:String(raw.assignmentDate||raw.date||dateId),revision:Number.isInteger(raw.revision)?raw.revision:0,updatedAt:raw.updatedAt||null,updatedBy:raw.updatedBy||null,unitAssignmentsSnapshot:snap,stations}}
+function alignAssignmentToUnit(data,unit){const byId=new Map(data.stations.map(s=>[s.id,s]));data.unitName=unit.name;data.unitAssignmentsSnapshot=clone(unit.unitAssignments);data.stations=unit.stations.map(s=>{const old=byId.get(s.id);return{id:s.id,name:s.name,shifts:{day:old?.shifts?.day?.map(normalizeCell)||[],night:old?.shifts?.night?.map(normalizeCell)||[]}}});return data}
 
-document.querySelectorAll('[data-go]').forEach(btn=>btn.addEventListener('click',()=>navigate(btn.dataset.go)));
-document.querySelectorAll('.station-jump').forEach(btn=>btn.addEventListener('click',()=>{selectedStationIndex=Number(btn.dataset.station)-1;localStorage.setItem('nab-view-station',String(selectedStationIndex+1));navigate('view');}));
+let session=null,profileUnsub=null,notificationsUnsubs=[],notifications=[],unitsCache=[],activeUnitId=localStorage.getItem('nab-admin-unit')||'',currentUnit=null,currentSection='home',viewUnsub=null,selectedViewDate=todayId(),selectedStation=0,editDate=todayId(),editData=null,editDirty=false,editSaving=false,editTimer=null,unitDraft=null,unitMembers=[];
 
-function applyRoleUI(){const role=session?.profile?.role||'staff',canEdit=['supervisor','admin'].includes(role),admin=role==='admin';$('navEdit').hidden=!canEdit;$('homeEdit').hidden=!canEdit;$('viewEditBtn').hidden=!canEdit;$('navAdmin').hidden=!admin;$('homeAdmin').hidden=!admin;$('topUser').textContent=session?.profile?.name||session?.user?.email||'';$('topRole').textContent=role;}
-function hideInnerScreens(){['homeScreen','viewScreen','editScreen','adminScreen'].forEach(id=>$(id).hidden=true);}
-async function navigate(target){if(!session)return;const role=session.profile.role;if(target==='edit'&&!['supervisor','admin'].includes(role))target='view';if(target==='admin'&&role!=='admin')target='home';hideInnerScreens();currentSection=target;const map={home:'homeScreen',view:'viewScreen',edit:'editScreen',admin:'adminScreen'};$(map[target]).hidden=false;$('topTitle').textContent={home:'Nursing Assignment Board',view:'Assignment Board',edit:'4-Station Assignment Editor',admin:'User Administration'}[target];if(target==='view')await initView();if(target==='edit')await initEdit();if(target==='admin')await loadUsers();window.scrollTo({top:0,behavior:'instant'});}
+async function ensureProfile(user,name='',requestedRole='staff'){
+  const ref=doc(db,'users',user.uid),snap=await getDoc(ref);
+  if(snap.exists())return snap.data();
+  const admin=isAdminEmail(user.email);const requested=admin?'admin':(requestedRole==='unit_manager'?'unit_manager':'staff');
+  const profile={name:(admin?APP.adminName:(name||user.displayName||user.email||'User')).trim(),email:String(user.email||'').toLowerCase(),requestedRole:requested,role:admin?'admin':(requested==='unit_manager'?'pending_unit_manager':'staff'),unitId:null,createdAt:serverTimestamp(),updatedAt:serverTimestamp()};
+  await setDoc(ref,profile);
+  if(!admin&&requested==='unit_manager'){
+    try{await addDoc(collection(db,'notifications'),{type:'manager_request',fromUserId:user.uid,fromName:profile.name,toUserId:null,toRole:'admin',unitId:null,message:`${profile.name} requested approval as a Unit Manager.`,read:false,createdAt:serverTimestamp()})}catch(e){console.warn('Could not create admin notification',e)}
+  }
+  return profile;
+}
+function myRole(){return session?.profile?.role||'staff'}
+function myUnitId(){return myRole()==='admin'?activeUnitId:(session?.profile?.unitId||'')}
+function canEditUnit(){return myRole()==='admin'||((myRole()==='unit_manager'||myRole()==='supervisor')&&!!session?.profile?.unitId)}
+function canManageUnit(){return myRole()==='admin'||(myRole()==='unit_manager'&&!!session?.profile?.unitId)}
+function hasUnit(){return!!myUnitId()}
 
-async function getAssignment(dateId){const snap=await getDoc(doc(db,'assignments',dateId));return snap.exists()?normalizeAssignmentData(snap.data(),dateId):null;}
-async function listAssignmentDates(){const snap=await getDocs(query(collection(db,'assignments'),orderBy('assignmentDate','desc')));return snap.docs.map(d=>({id:d.id,...d.data()}));}
-function subscribeAssignment(dateId,onData,onError){return onSnapshot(doc(db,'assignments',dateId),snap=>onData(snap.exists()?normalizeAssignmentData(snap.data(),dateId):null),onError);}
-async function saveAssignment(data){const dateId=data.assignmentDate||data.date;if(!/^\d{4}-\d{2}-\d{2}$/.test(dateId))throw new Error('Choose a valid assignment date.');if(isPastDate(dateId))throw new Error('Past assignments are locked and cannot be modified.');const ref=doc(db,'assignments',dateId),normalized=normalizeAssignmentData(data,dateId),expected=Number.isInteger(normalized.revision)?normalized.revision:0;let newRevision=0;await runTransaction(db,async tx=>{const existing=await tx.get(ref);if(existing.exists()){const current=Number.isInteger(existing.data().revision)?existing.data().revision:0;if(current!==expected)throw new Error('Another supervisor saved a newer version. Reload this date before saving so their changes are not overwritten.');newRevision=current+1;}else{if(expected!==0)throw new Error('The assignment changed in Firestore. Reload before saving.');newRevision=1;}tx.set(ref,{...normalized,date:dateId,assignmentDate:dateId,revision:newRevision,updatedAt:serverTimestamp(),updatedBy:{uid:session.user.uid,name:session.profile.name||session.user.displayName||session.user.email||'',email:session.user.email||''}});});return newRevision;}
+async function refreshUnits(){const needsDirectory=myRole()==='admin'||(myRole()==='staff'&&!session?.profile?.unitId);if(!needsDirectory){unitsCache=[];return unitsCache}const snap=await getDocs(collection(db,'unitDirectory'));unitsCache=snap.docs.map(d=>({id:d.id,name:String(d.data().name||'Unit'),managerId:String(d.data().managerId||d.id),managerName:String(d.data().managerName||'')})).sort((a,b)=>a.name.localeCompare(b.name));if(myRole()==='admin'){if(activeUnitId&&!unitsCache.some(u=>u.id===activeUnitId))activeUnitId='';if(!activeUnitId&&unitsCache.length)activeUnitId=unitsCache[0].id;localStorage.setItem('nab-admin-unit',activeUnitId||'');renderAdminUnitPicker()}return unitsCache}
+async function loadCurrentUnit(){const id=myUnitId();if(!id){currentUnit=null;updateUnitContext();return null}const snap=await getDoc(doc(db,'units',id));currentUnit=snap.exists()?normalizeUnit(snap.id,snap.data()):null;updateUnitContext();return currentUnit}
+function renderAdminUnitPicker(){const wrap=$('adminUnitPickerWrap'),sel=$('adminUnitPicker');wrap.hidden=myRole()!=='admin';if(myRole()!=='admin')return;sel.innerHTML='';if(!unitsCache.length){const o=document.createElement('option');o.textContent='No units yet';o.value='';sel.appendChild(o);return}unitsCache.forEach(u=>{const o=document.createElement('option');o.value=u.id;o.textContent=u.name;o.selected=u.id===activeUnitId;sel.appendChild(o)})}
+function updateUnitContext(){$('unitContext').textContent=currentUnit?`Active unit: ${currentUnit.name}`:(myRole()==='admin'?'No active unit selected':session?.profile?.unitId?'Unit not created yet':'Not joined to a unit')}
+$('adminUnitPicker').addEventListener('change',async()=>{activeUnitId=$('adminUnitPicker').value;localStorage.setItem('nab-admin-unit',activeUnitId);await loadCurrentUnit();applyRoleUI();if(currentSection==='home')renderHome();else await navigate(currentSection)});
 
-// VIEW
-function renderStaffList(container,names){container.innerHTML='';if(!names.length){const e=document.createElement('span');e.className='staff-empty';e.textContent='No staff assigned';container.appendChild(e);return;}names.forEach(name=>{const c=document.createElement('span');c.className='staff-chip';c.textContent=name;container.appendChild(c);});}
-function renderOverview(data){const grid=$('stationOverviewGrid');grid.innerHTML='';data.stations.forEach((station,i)=>{const card=document.createElement('article');card.className='station-overview-card'+(i===selectedStationIndex?' current':'');const head=document.createElement('div');head.className='station-overview-card-head';const num=document.createElement('span');num.className='station-number';num.textContent=String(i+1);const name=document.createElement('h3');name.textContent=station.name;head.append(num,name);const day=document.createElement('div');day.className='staff-shift-row';const dl=document.createElement('b');dl.textContent='Day';const dn=document.createElement('div');dn.className='staff-chips';renderStaffList(dn,stationStaff(station,'day'));day.append(dl,dn);const night=document.createElement('div');night.className='staff-shift-row';const nl=document.createElement('b');nl.textContent='Night';const nn=document.createElement('div');nn.className='staff-chips';renderStaffList(nn,stationStaff(station,'night'));night.append(nl,nn);card.append(head,day,night);grid.appendChild(card);});}
-function renderViewStationTabs(data){const tabs=$('viewStationTabs');tabs.innerHTML='';data.stations.forEach((station,i)=>{const b=document.createElement('button');b.type='button';b.className='station-screen-tab'+(i===selectedStationIndex?' active':'');b.textContent=station.name;b.addEventListener('click',()=>{selectedStationIndex=i;localStorage.setItem('nab-view-station',String(i+1));renderView(data);});tabs.appendChild(b);});}
-function renderGrid(container,cells){container.innerHTML='';cells.forEach((c,i)=>{const units=(c.units||[]).map(unitById).filter(Boolean),primary=units[0]||null,has=!!(c.nurse||c.patient||units.length);const card=document.createElement('div');card.className='assign-card'+(has?'':' unassigned');if(primary)card.style.background=`linear-gradient(160deg, ${primary.color}, ${primary.color}cc)`;const icon=document.createElement('div');icon.className='card-icon';icon.textContent=primary?primary.icon:'＋';const slot=document.createElement('div');slot.className='card-slot';slot.textContent=`#${i+1}`;const nurse=document.createElement('div');nurse.className='card-nurse';nurse.textContent=c.nurse||'No staff assigned';card.append(icon,slot,nurse);if(c.patient){const p=document.createElement('div');p.className='card-patient';p.textContent=c.patient;card.appendChild(p);}if(units.length){const duties=document.createElement('div');duties.className='card-units';units.forEach(u=>{const badge=document.createElement('span');badge.className='card-unit-badge';badge.textContent=`${u.icon} ${u.label}`;duties.appendChild(badge);});card.appendChild(duties);}else{const u=document.createElement('div');u.className='card-unit card-unit-empty';u.textContent='No unit duties';card.appendChild(u);}container.appendChild(card);});}
-let currentViewData=defaultAssignmentData();
-function renderView(data){currentViewData=normalizeAssignmentData(data,selectedViewDate);const station=currentViewData.stations[selectedStationIndex]||currentViewData.stations[0];$('viewUnitName').value=currentViewData.unitName||'';$('viewDateField').value=currentViewData.assignmentDate||selectedViewDate;$('selectedStationHeading').textContent=`${station.name} Assignment`;renderViewStationTabs(currentViewData);renderOverview(currentViewData);renderGrid($('viewDayGrid'),station.shifts.day);renderGrid($('viewNightGrid'),station.shifts.night);$('viewDayCount').textContent=`${station.shifts.day.length} slot${station.shifts.day.length===1?'':'s'}`;$('viewNightCount').textContent=`${station.shifts.night.length} slot${station.shifts.night.length===1?'':'s'}`;const by=currentViewData.updatedBy?.name?` by ${currentViewData.updatedBy.name}`:'';$('viewUpdatedNote').textContent=currentViewData.updatedAt?`Last updated ${formatTimestamp(currentViewData.updatedAt)}${by}`:'No saved update';$('viewEditBtn').disabled=isPastDate(selectedViewDate);$('viewEditBtn').textContent=isPastDate(selectedViewDate)?'Past date locked':'Edit selected date';}
-function subscribeView(dateId){if(viewUnsub)viewUnsub();selectedViewDate=dateId;$('viewStatusText').textContent='Connecting…';viewUnsub=subscribeAssignment(dateId,data=>{$('viewStatusText').textContent='Live · Firestore';const empty=!data;$('viewEmptyState').style.display=empty?'flex':'none';$('viewStationDetails').style.display=empty?'none':'';renderView(data||defaultAssignmentData(dateId));},err=>{console.error(err);$('viewStatusText').textContent=`Firestore problem: ${err.message}`;});}
-async function initView(){try{const rows=await listAssignmentDates(),ids=[...new Set(rows.map(r=>r.assignmentDate||r.id).filter(Boolean))];if(!ids.includes(selectedViewDate))ids.push(selectedViewDate);ids.sort().reverse();const sel=$('viewDateSelect');sel.innerHTML='';ids.forEach(id=>{const o=document.createElement('option');o.value=id;o.textContent=id+(id===todayDateId()?' · Today':'');o.selected=id===selectedViewDate;sel.appendChild(o);});subscribeView(selectedViewDate);}catch(err){console.error(err);$('viewStatusText').textContent=`Could not load dates: ${err.message}`;}}
-$('viewDateSelect').addEventListener('change',()=>subscribeView($('viewDateSelect').value));$('viewEditBtn').addEventListener('click',()=>{if(!isPastDate(selectedViewDate)){loadedEditDate=selectedViewDate;navigate('edit');}});
+function setAuthMessage(t,err=false){$('authMessage').textContent=t;$('authMessage').style.color=err?'var(--red)':'var(--muted)'}
+function showAuth(which){const login=which==='login';$('loginForm').hidden=!login;$('registerForm').hidden=login;$('loginTab').className=login?'btn btn-primary':'btn btn-ghost';$('registerTab').className=login?'btn btn-ghost':'btn btn-primary';setAuthMessage('')}
+$('loginTab').onclick=()=>showAuth('login');$('registerTab').onclick=()=>showAuth('register');
+$('loginForm').addEventListener('submit',async e=>{e.preventDefault();setAuthMessage('Signing in…');try{await signInWithEmailAndPassword(auth,$('loginEmail').value.trim(),$('loginPassword').value)}catch(err){console.error(err);setAuthMessage(err.code==='auth/invalid-credential'?'Email or password is incorrect.':err.message,true)}});
+$('registerForm').addEventListener('submit',async e=>{e.preventDefault();const name=$('registerName').value.trim(),email=$('registerEmail').value.trim(),pw=$('registerPassword').value,confirm=$('registerConfirm').value,requested=$('registerRequestedRole').value;if(pw!==confirm){setAuthMessage('Passwords do not match.',true);return}setAuthMessage('Creating account…');try{const cred=await createUserWithEmailAndPassword(auth,email,pw);await updateProfile(cred.user,{displayName:name});await ensureProfile(cred.user,name,requested)}catch(err){console.error(err);setAuthMessage(err.code==='auth/email-already-in-use'?'That email is already registered.':err.message,true)}});
+$('logoutBtn').onclick=()=>signOut(auth);
 
-// EDIT
-function selectedSummary(units){if(!units?.length)return'— Select duties —';if(units.length===1)return unitById(units[0])?.label||'1 duty selected';return`${units.length} duties selected`;}
-function buildUnitPicker(cell){const details=document.createElement('details');details.className='unit-picker';const summary=document.createElement('summary');summary.textContent=selectedSummary(cell.units);details.appendChild(summary);const menu=document.createElement('div');menu.className='unit-picker-menu';UNIT_OPTIONS.forEach(u=>{const label=document.createElement('label'),check=document.createElement('input'),text=document.createElement('span');check.type='checkbox';check.checked=cell.units.includes(u.id);check.addEventListener('change',()=>{if(check.checked){if(!cell.units.includes(u.id))cell.units.push(u.id);}else cell.units=cell.units.filter(id=>id!==u.id);summary.textContent=selectedSummary(cell.units);markDirty();});text.className='unit-option-text';text.textContent=`${u.icon} ${u.label}`;label.append(check,text);menu.appendChild(label);});details.appendChild(menu);return details;}
-document.addEventListener('click',e=>document.querySelectorAll('details.unit-picker[open]').forEach(p=>{if(!p.contains(e.target))p.open=false;}));document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('details.unit-picker[open]').forEach(p=>p.open=false);});
-function renderShiftTable(state,tbody,countEl){tbody.innerHTML='';state.forEach((cell,i)=>{const tr=document.createElement('tr');const nurse=document.createElement('input');nurse.type='text';nurse.placeholder='Staff name';nurse.value=cell.nurse||'';nurse.addEventListener('input',()=>{state[i].nurse=nurse.value;markDirty();});const patient=document.createElement('input');patient.type='text';patient.placeholder='Patient / room';patient.value=cell.patient||'';patient.addEventListener('input',()=>{state[i].patient=patient.value;markDirty();});const idx=document.createElement('td');idx.className='idx';idx.textContent=i+1;const nt=document.createElement('td');nt.appendChild(nurse);const pt=document.createElement('td');pt.appendChild(patient);const ut=document.createElement('td');ut.appendChild(buildUnitPicker(cell));const at=document.createElement('td');at.className='action-cell';const rm=document.createElement('button');rm.type='button';rm.className='row-remove-btn';rm.textContent='×';rm.title='Remove this slot';rm.disabled=state.length<=1;rm.addEventListener('click',()=>{state.splice(i,1);renderActiveEditStation();markDirty();});at.appendChild(rm);tr.append(idx,nt,pt,ut,at);tbody.appendChild(tr);});countEl.textContent=`${state.length} slot${state.length===1?'':'s'}`;}
-function renderEditTabs(){const tabs=$('editStationTabs');tabs.innerHTML='';editData.stations.forEach((station,i)=>{const b=document.createElement('button');b.type='button';b.className='station-tab'+(i===activeEditStation?' active':'');const n=document.createElement('span');n.textContent=i+1;b.append(n,document.createTextNode(station.name||`Station ${i+1}`));b.addEventListener('click',()=>{activeEditStation=i;renderActiveEditStation();});tabs.appendChild(b);});}
-function renderActiveEditStation(){const s=editData.stations[activeEditStation];$('stationName').value=s.name;$('editDayStationTitle').textContent=s.name;$('editNightStationTitle').textContent=s.name;renderEditTabs();renderShiftTable(s.shifts.day,$('editDayBody'),$('editDayCount'));renderShiftTable(s.shifts.night,$('editNightBody'),$('editNightCount'));}
-function updateLockState(){const locked=isPastDate(loadedEditDate);$('editorArea').disabled=locked;$('saveBtn').disabled=locked;$('saveBottomBtn').disabled=locked;$('lockedBanner').style.display=locked?'block':'none';$('cloudDetail').textContent=locked?'This assignment is read-only because its date has finished.':'Changes save automatically after you stop typing.';}
-function markDirty(){if(isPastDate(loadedEditDate))return;dirty=true;$('cloudStatus').textContent='Unsaved changes…';clearTimeout(saveTimer);saveTimer=setTimeout(()=>saveNow(true),APP_CONFIG.autoSaveDelayMs);}
-async function saveNow(automatic=false){if(saving||!dirty||isPastDate(loadedEditDate))return;clearTimeout(saveTimer);saving=true;$('cloudStatus').textContent=automatic?'Auto-saving…':'Saving…';try{editData.unitName=$('editUnitName').value.trim();editData.assignmentDate=loadedEditDate;editData.date=loadedEditDate;editData.revision=await saveAssignment(editData);dirty=false;$('cloudStatus').textContent='Saved to Firestore';$('cloudDetail').textContent=`Saved ${new Date().toLocaleTimeString()}`;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),1800);}catch(err){console.error(err);$('cloudStatus').textContent='Save failed';$('cloudDetail').textContent=err.message;if(!automatic)alert(`Could not save: ${err.message}`);}finally{saving=false;}}
-async function loadEditDate(dateId){clearTimeout(saveTimer);dirty=false;loadedEditDate=dateId;$('editDateField').value=dateId;$('cloudStatus').textContent='Loading assignment…';$('cloudDetail').textContent='Reading from Firestore.';const existing=await getAssignment(dateId);editData=existing?normalizeAssignmentData(existing,dateId):defaultAssignmentData(dateId);$('editUnitName').value=editData.unitName||'';activeEditStation=0;renderActiveEditStation();$('editUpdatedNote').textContent=editData.updatedAt?`Last updated ${formatTimestamp(editData.updatedAt)}`:'No assignment saved for this date yet';$('cloudStatus').textContent=existing?'Connected · assignment loaded':'Connected · new assignment';updateLockState();}
-async function initEdit(){if(!['supervisor','admin'].includes(session.profile.role)){navigate('view');return;}try{await loadEditDate(loadedEditDate||todayDateId());}catch(err){console.error(err);$('cloudStatus').textContent='Could not load Firestore';$('cloudDetail').textContent=err.message;}}
-$('stationName').addEventListener('input',()=>{const v=$('stationName').value.trimStart();editData.stations[activeEditStation].name=v||`Station ${activeEditStation+1}`;$('editDayStationTitle').textContent=editData.stations[activeEditStation].name;$('editNightStationTitle').textContent=editData.stations[activeEditStation].name;renderEditTabs();markDirty();});$('editUnitName').addEventListener('input',markDirty);$('dayAddBtn').addEventListener('click',()=>{editData.stations[activeEditStation].shifts.day.push(blankAssignment());renderActiveEditStation();markDirty();});$('nightAddBtn').addEventListener('click',()=>{editData.stations[activeEditStation].shifts.night.push(blankAssignment());renderActiveEditStation();markDirty();});$('saveBtn').addEventListener('click',()=>saveNow(false));$('saveBottomBtn').addEventListener('click',()=>saveNow(false));$('editDateField').addEventListener('change',async()=>{const next=$('editDateField').value;if(!next){$('editDateField').value=loadedEditDate;return;}if(dirty)await saveNow(false);await loadEditDate(next);});$('previewBtn').addEventListener('click',()=>{selectedViewDate=loadedEditDate;navigate('view');});
-window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
+function applyRoleUI(){const role=myRole(),unit=hasUnit();$('topUser').textContent=session?.profile?.name||session?.user?.email||'';$('topRole').textContent=roleLabel(role);$('navView').hidden=!unit;$('navEdit').hidden=!(canEditUnit()&&unit);$('navUnit').hidden=!(canManageUnit()&&unit);$('navAdmin').hidden=role!=='admin';renderAdminUnitPicker();updateUnitContext()}
+function hideScreens(){['homeScreen','viewScreen','editScreen','unitScreen','adminScreen'].forEach(id=>$(id).hidden=true)}
+async function navigate(target){if(!session)return;await refreshUnits();await loadCurrentUnit();if(target==='view'&&!hasUnit())target='home';if(target==='edit'&&!(canEditUnit()&&hasUnit()))target='home';if(target==='unit'&&!(canManageUnit()&&hasUnit()))target='home';if(target==='admin'&&myRole()!=='admin')target='home';if(viewUnsub){viewUnsub();viewUnsub=null}hideScreens();currentSection=target;const map={home:'homeScreen',view:'viewScreen',edit:'editScreen',unit:'unitScreen',admin:'adminScreen'};$(map[target]).hidden=false;$('topTitle').textContent={home:'Nursing Assignment Board',view:'Assignment Board',edit:'Assignment Editor',unit:'Unit Management',admin:'Administrator'}[target];if(target==='home')await renderHome();if(target==='view')await initView();if(target==='edit')await initEdit();if(target==='unit')await initUnitManagement();if(target==='admin')await initAdmin();window.scrollTo({top:0,behavior:'instant'})}
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>navigate(b.dataset.go)));
 
-// ADMIN
-async function loadUsers(){if(session.profile.role!=='admin')return;const body=$('usersBody'),msg=$('adminMessage');body.innerHTML='';msg.textContent='Loading users…';try{const snap=await getDocs(collection(db,'users')),users=snap.docs.map(d=>({uid:d.id,...d.data()})).sort((a,b)=>(a.name||a.email||'').localeCompare(b.name||b.email||''));users.forEach(u=>{const tr=document.createElement('tr'),name=document.createElement('td'),email=document.createElement('td'),role=document.createElement('td'),updated=document.createElement('td');name.textContent=u.name||'—';email.textContent=u.email||'—';if(u.role==='admin'){const badge=document.createElement('span');badge.className='role-badge';badge.textContent='admin';role.appendChild(badge);}else{const select=document.createElement('select');select.className='role-select';['staff','supervisor'].forEach(r=>{const o=document.createElement('option');o.value=r;o.textContent=r[0].toUpperCase()+r.slice(1);o.selected=u.role===r;select.appendChild(o);});select.addEventListener('change',async()=>{select.disabled=true;msg.textContent=`Updating ${u.name||u.email}…`;try{await updateDoc(doc(db,'users',u.uid),{role:select.value,updatedAt:serverTimestamp(),roleAssignedBy:session.user.uid});msg.textContent='Role updated.';}catch(err){console.error(err);msg.textContent=`Could not update role: ${err.message}`;await loadUsers();}finally{select.disabled=false;}});role.appendChild(select);}updated.textContent=formatTimestamp(u.updatedAt)||'—';tr.append(name,email,role,updated);body.appendChild(tr);});msg.textContent=`${users.length} registered user${users.length===1?'':'s'}.`;}catch(err){console.error(err);msg.textContent=`Could not load users: ${err.message}`;}}
-$('refreshUsersBtn').addEventListener('click',loadUsers);
+function actionCard(title,text,go,extraClass=''){const b=document.createElement('button');b.className=`card ${extraClass}`;b.innerHTML=`<div class="kicker">${escapeText(title)}</div><h3>${escapeText(title)}</h3><p>${escapeText(text)}</p>`;b.onclick=()=>navigate(go);return b}
+async function renderHome(){const role=myRole();$('homeGreeting').textContent=`Welcome, ${session.profile.name||'User'}`;const actions=$('homeActions'),special=$('homeSpecial');actions.innerHTML='';special.innerHTML='';let summary='';if(role==='admin'){summary='Administrator access is global: view every unit and member, manage roles, configure units, and modify any current or future assignment.';if(unitsCache.length){actions.append(actionCard('View Board','View the selected unit and its assignment history.','view'),actionCard('Edit Assignment','Modify the selected unit current or future assignment.','edit'),actionCard('Manage Unit','Change stations, duty options, members, and join requests for the selected unit.','unit'))}actions.append(actionCard('Administrator','View all units, all members, and approve Unit Managers.','admin'))}
+  else if(role==='pending_unit_manager'){summary='Your Unit Manager request is waiting for Administrator approval. You will be notified when your role changes.';special.innerHTML='<div class="card"><span class="status pending">Pending approval</span><h3>Unit Manager request submitted</h3><p class="muted">After the Administrator approves you, this page will let you create your unit immediately.</p></div>'}
+  else if(role==='unit_manager'){
+    if(currentUnit){summary=`You manage ${currentUnit.name}. Your access is restricted to this unit.`;actions.append(actionCard('View Board','View your unit assignments and history.','view'),actionCard('Edit Assignment','Create or modify current/future assignments for your unit.','edit'),actionCard('Manage Unit','Manage stations, duty names, members, supervisors, and join requests.','unit'))}
+    else{summary='Your Unit Manager role is approved. Create your unit to begin.';special.appendChild(createUnitCard())}
+  } else if(role==='supervisor'){summary=currentUnit?`You are a Supervisor in ${currentUnit.name}. You can view and edit current/future assignments for this unit only.`:'Your Supervisor account is not attached to a unit.';if(currentUnit)actions.append(actionCard('View Board','View your unit assignments.','view'),actionCard('Edit Assignment','Create or modify current/future assignments.','edit'))}
+  else{if(currentUnit){summary=`You are Staff in ${currentUnit.name}. You can view assignments for this unit only.`;actions.append(actionCard('View Board','View your unit assignment and history.','view'))}else{summary='You are Staff and have not joined a unit yet. Request membership from the Unit Manager.';special.appendChild(await createJoinUnitCard())}}
+  $('homeSummary').textContent=summary;applyRoleUI()}
+function createUnitCard(){const card=document.createElement('section');card.className='card create-unit';card.innerHTML=`<div class="kicker">First-time setup</div><h3>Create your unit</h3><div class="form-grid"><label>Unit name<input id="createUnitName" maxlength="100" placeholder="e.g. Medical Ward A"></label><label>Number of nurse stations<input id="createUnitStations" type="number" min="1" max="20" value="4"></label><button id="createUnitBtn" class="btn btn-primary">Create unit</button><div id="createUnitMessage" class="message"></div></div>`;setTimeout(()=>$('createUnitBtn')?.addEventListener('click',createOwnUnit),0);return card}
+async function createOwnUnit(){const name=$('createUnitName').value.trim(),count=Math.max(1,Math.min(20,Number($('createUnitStations').value)||4)),msg=$('createUnitMessage');if(!name){msg.textContent='Enter a unit name.';return}msg.textContent='Creating unit…';try{const data=defaultUnitConfig(session.user.uid,name,session.profile.name,count);data.createdAt=serverTimestamp();data.updatedAt=serverTimestamp();const batch=writeBatch(db);batch.set(doc(db,'units',session.user.uid),data);batch.set(doc(db,'unitDirectory',session.user.uid),{name,managerId:session.user.uid,managerName:session.profile.name,createdAt:serverTimestamp(),updatedAt:serverTimestamp()});await batch.commit();await addDoc(collection(db,'notifications'),{type:'unit_created',fromUserId:session.user.uid,fromName:session.profile.name,toUserId:null,toRole:'admin',unitId:session.user.uid,message:`${session.profile.name} created unit “${name}”.`,read:false,createdAt:serverTimestamp()});await refreshUnits();await loadCurrentUnit();applyRoleUI();await renderHome()}catch(err){console.error(err);msg.textContent=`Could not create unit: ${err.message}`}}
+async function createJoinUnitCard(){const card=document.createElement('section');card.className='card';card.innerHTML='<div class="kicker">Unit membership</div><h3>Request to join a unit</h3><p class="muted">Choose a unit. Its Unit Manager will receive a notification and can approve or reject your request.</p><div id="joinUnitList" class="join-list"></div>';const list=card.querySelector('#joinUnitList');if(!unitsCache.length){list.innerHTML='<div class="empty-row">No units have been created yet.</div>';return card}const reqSnap=await getDocs(query(collection(db,'joinRequests'),where('userId','==',session.user.uid)));const existing=new Map(reqSnap.docs.map(d=>[d.data().unitId,d.data()]));unitsCache.forEach(u=>{const row=document.createElement('div');row.className='join-unit-row';const status=existing.get(u.id);row.innerHTML=`<div><strong>${escapeText(u.name)}</strong><div class="note">Manager: ${escapeText(u.managerName||'Unit Manager')}</div>${status?`<span class="status ${status.status==='pending'?'pending':status.status==='approved'?'ok':'bad'}">${escapeText(status.status)}</span>`:''}</div>`;const b=document.createElement('button');b.className='btn btn-primary btn-small';b.textContent=status?.status==='pending'?'Requested':'Request to join';b.disabled=!!status&&status.status!=='rejected';b.onclick=()=>requestJoin(u,b);row.appendChild(b);list.appendChild(row)});return card}
+async function requestJoin(unit,button){button.disabled=true;button.textContent='Sending…';try{const id=`${unit.id}_${session.user.uid}`;await setDoc(doc(db,'joinRequests',id),{userId:session.user.uid,userName:session.profile.name,userEmail:session.profile.email,unitId:unit.id,unitName:unit.name,status:'pending',createdAt:serverTimestamp(),resolvedAt:null,resolvedBy:null});await addDoc(collection(db,'notifications'),{type:'join_request',fromUserId:session.user.uid,fromName:session.profile.name,toUserId:unit.managerId,toRole:'unit_manager',unitId:unit.id,message:`${session.profile.name} requested to join ${unit.name}.`,read:false,createdAt:serverTimestamp()});await renderHome()}catch(err){console.error(err);alert(`Could not send request: ${err.message}`);button.disabled=false;button.textContent='Request to join'}}
 
-onAuthStateChanged(auth,async user=>{$('loadingScreen').style.display='none';if(!user){session=null;if(viewUnsub){viewUnsub();viewUnsub=null;}$('appShell').classList.remove('active');$('authScreen').classList.add('active');showAuthTab('login');return;}try{const profile=await ensureUserProfile(user);session={user,profile};$('authScreen').classList.remove('active');$('appShell').classList.add('active');applyRoleUI();await navigate('home');}catch(err){console.error(err);$('authScreen').classList.add('active');$('appShell').classList.remove('active');setAuthMessage(`Signed in, but the user profile could not be loaded. Check Firestore and its security rules: ${err.message}`,true);}});
+async function assignmentDates(unitId){const snap=await getDocs(query(collection(db,'units',unitId,'assignments'),orderBy('assignmentDate','desc')));return snap.docs.map(d=>({id:d.id,...d.data()}))}
+async function assignmentGet(unitId,date){const snap=await getDoc(doc(db,'units',unitId,'assignments',date));return snap.exists()?normalizeAssignment(snap.data(),date,currentUnit):null}
+function assignmentListen(unitId,date,cb,err){return onSnapshot(doc(db,'units',unitId,'assignments',date),s=>cb(s.exists()?normalizeAssignment(s.data(),date,currentUnit):null),err)}
+async function saveAssignment(data){const unitId=myUnitId(),date=data.assignmentDate;if(!unitId||!/^\d{4}-\d{2}-\d{2}$/.test(date))throw new Error('Invalid unit or date.');if(isPast(date))throw new Error('Past assignments are locked.');const ref=doc(db,'units',unitId,'assignments',date);return runTransaction(db,async tx=>{const snap=await tx.get(ref),serverRev=snap.exists()?(snap.data().revision||0):0;if(serverRev!==(data.revision||0))throw new Error('Another user saved a newer version. Reload before saving.');const next=serverRev+1,payload=clone(data);payload.unitId=unitId;payload.unitName=currentUnit.name;payload.assignmentDate=date;payload.date=date;payload.revision=next;payload.updatedAt=serverTimestamp();payload.updatedBy={uid:session.user.uid,name:session.profile.name,email:session.profile.email};if(snap.exists())tx.update(ref,payload);else tx.set(ref,payload);return next})}
+function dutyMapFrom(data){return new Map((data.unitAssignmentsSnapshot||[]).map(d=>[String(d.id),String(d.label)]))}
+function stationStaff(station,shift){const seen=new Set(),out=[];(station?.shifts?.[shift]||[]).forEach(r=>{const n=(r.nurse||'').trim(),k=n.toLowerCase();if(n&&!seen.has(k)){seen.add(k);out.push(n)}});return out}
+async function initView(){if(!currentUnit)return navigate('home');$('viewStatus').textContent='Loading assignment dates…';try{const dates=await assignmentDates(currentUnit.id),sel=$('viewDateSelect');sel.innerHTML='';const ids=dates.map(x=>x.id);if(!ids.includes(selectedViewDate))selectedViewDate=ids.includes(todayId())?todayId():(ids[0]||todayId());const all=[...new Set([selectedViewDate,...ids])];all.sort((a,b)=>b.localeCompare(a));all.forEach(id=>{const o=document.createElement('option');o.value=id;o.textContent=id+(id===todayId()?' · Today':'');o.selected=id===selectedViewDate;sel.appendChild(o)});subscribeView(selectedViewDate)}catch(err){console.error(err);$('viewStatus').textContent=`Could not load assignments: ${err.message}`}}
+function subscribeView(date){selectedViewDate=date;if(viewUnsub)viewUnsub();$('viewStatus').textContent='Listening for updates…';viewUnsub=assignmentListen(currentUnit.id,date,data=>{if(data)renderView(data);else renderEmptyView(date)},err=>{$('viewStatus').textContent=`Access/read error: ${err.message}`})}
+function renderEmptyView(date){const data=defaultAssignment(date,currentUnit);renderView(data);$('viewStatus').textContent='No assignment saved for this date.';$('viewUpdated').textContent='Not saved'}
+function renderView(data){$('viewStatus').textContent='Live · connected';$('viewUnitName').textContent=data.unitName||currentUnit.name;$('viewDateText').textContent=data.assignmentDate;$('viewUpdated').textContent=data.updatedAt?`${tsText(data.updatedAt)}${data.updatedBy?.name?` by ${data.updatedBy.name}`:''}`:'Not saved';$('viewEditBtn').hidden=!canEditUnit();$('viewEditBtn').disabled=isPast(data.assignmentDate);selectedStation=Math.min(selectedStation,Math.max(0,data.stations.length-1));renderOverview(data);renderViewTabs(data);renderStationView(data)}
+function renderOverview(data){const box=$('stationOverview');box.innerHTML='';data.stations.forEach((s,i)=>{const c=document.createElement('div');c.className='station-card'+(i===selectedStation?' active':'');const day=stationStaff(s,'day'),night=stationStaff(s,'night');c.innerHTML=`<h4>${escapeText(s.name)}</h4><div class="kicker">Day</div><div class="chips">${day.length?day.map(n=>`<span class="chip">${escapeText(n)}</span>`).join(''):'<span class="note">No staff</span>'}</div><div class="kicker" style="margin-top:8px">Night</div><div class="chips">${night.length?night.map(n=>`<span class="chip night">${escapeText(n)}</span>`).join(''):'<span class="note">No staff</span>'}</div>`;box.appendChild(c)})}
+function renderViewTabs(data){const box=$('viewStationTabs');box.innerHTML='';data.stations.forEach((s,i)=>{const b=document.createElement('button');b.className='station-tab'+(i===selectedStation?' active':'');b.textContent=s.name;b.onclick=()=>{selectedStation=i;renderOverview(data);renderViewTabs(data);renderStationView(data)};box.appendChild(b)})}
+function renderStationView(data){const s=data.stations[selectedStation];if(!s)return;$('selectedStationTitle').textContent=`${s.name} Assignment`;renderAssignmentCards($('dayViewGrid'),s.shifts.day,data);renderAssignmentCards($('nightViewGrid'),s.shifts.night,data);$('dayViewCount').textContent=`${s.shifts.day.length} staff`;$('nightViewCount').textContent=`${s.shifts.night.length} staff`}
+function renderAssignmentCards(box,rows,data){box.innerHTML='';const duties=dutyMapFrom(data);if(!rows.length){const e=document.createElement('div');e.className='assignment-card empty';e.innerHTML='<strong>No staff added</strong><span class="note">This shift has no assignment rows.</span>';box.appendChild(e);return}rows.forEach(r=>{const c=document.createElement('div');c.className='assignment-card';const labels=(r.units||[]).map(id=>duties.get(String(id))||String(id));c.innerHTML=`<div class="staff">${escapeText(r.nurse||'Unnamed staff')}</div>${r.patient?`<div class="patient">${escapeText(r.patient)}</div>`:''}<div class="duty-badges">${labels.length?labels.map(x=>`<span class="duty">${escapeText(x)}</span>`).join(''):'<span class="duty">No unit assignment</span>'}</div>`;box.appendChild(c)})}
+$('viewDateSelect').onchange=()=>subscribeView($('viewDateSelect').value);$('viewEditBtn').onclick=()=>{if(!isPast(selectedViewDate)){editDate=selectedViewDate;navigate('edit')}};
+
+async function loadUnitMembers(unitId){const snap=await getDocs(query(collection(db,'users'),where('unitId','==',unitId)));return snap.docs.map(d=>({uid:d.id,...d.data()})).sort((a,b)=>(a.name||a.email||'').localeCompare(b.name||b.email||''))}
+async function initEdit(){if(!canEditUnit()||!currentUnit)return navigate('home');unitMembers=await loadUnitMembers(currentUnit.id);renderMemberDatalist();await loadEdit(editDate||todayId())}
+function renderMemberDatalist(){const dl=$('unitMembersDatalist');dl.innerHTML='';unitMembers.forEach(m=>{const o=document.createElement('option');o.value=m.name||m.email;dl.appendChild(o)})}
+async function loadEdit(date){clearTimeout(editTimer);editDirty=false;editDate=date;$('editDate').value=date;$('editStatus').textContent='Loading…';const existing=await assignmentGet(currentUnit.id,date);editData=existing?alignAssignmentToUnit(existing,currentUnit):defaultAssignment(date,currentUnit);selectedStation=0;renderEdit();$('editStatus').textContent=existing?'Assignment loaded':'New assignment';$('editDetail').textContent=existing&&editData.updatedAt?`Last saved ${tsText(editData.updatedAt)}`:'No saved assignment for this date';updateEditorLock()}
+function renderEdit(){if(!editData)return;$('editUnitName').textContent=currentUnit.name;const tabs=$('editStationTabs');tabs.innerHTML='';editData.stations.forEach((s,i)=>{const b=document.createElement('button');b.type='button';b.className='station-tab'+(i===selectedStation?' active':'');b.textContent=s.name;b.onclick=()=>{selectedStation=i;renderEdit()};tabs.appendChild(b)});selectedStation=Math.min(selectedStation,Math.max(0,editData.stations.length-1));const s=editData.stations[selectedStation];$('editDayTitle').textContent=`${s.name} · Day Shift`;$('editNightTitle').textContent=`${s.name} · Night Shift`;renderEditRows(s.shifts.day,$('dayEditBody'),$('editDayCount'));renderEditRows(s.shifts.night,$('nightEditBody'),$('editNightCount'))}
+function selectedDutySummary(ids){if(!ids?.length)return'— Select assignments —';const map=new Map(currentUnit.unitAssignments.map(d=>[d.id,d.label]));if(ids.length===1)return map.get(ids[0])||'1 selected';return`${ids.length} assignments selected`}
+function buildDutyPicker(cell){const d=document.createElement('details');d.className='unit-picker';const s=document.createElement('summary');s.textContent=selectedDutySummary(cell.units);const menu=document.createElement('div');menu.className='unit-picker-menu';currentUnit.unitAssignments.forEach(opt=>{const lab=document.createElement('label'),cb=document.createElement('input'),txt=document.createElement('span');cb.type='checkbox';cb.checked=cell.units.includes(opt.id);cb.onchange=()=>{if(cb.checked){if(!cell.units.includes(opt.id))cell.units.push(opt.id)}else cell.units=cell.units.filter(x=>x!==opt.id);s.textContent=selectedDutySummary(cell.units);markEditDirty()};txt.textContent=opt.label;lab.append(cb,txt);menu.appendChild(lab)});d.append(s,menu);return d}
+document.addEventListener('click',e=>document.querySelectorAll('details.unit-picker[open]').forEach(p=>{if(!p.contains(e.target))p.open=false}));document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('details.unit-picker[open]').forEach(p=>p.open=false)});
+function renderEditRows(rows,body,count){body.innerHTML='';count.textContent=`${rows.length} staff`;if(!rows.length){const tr=document.createElement('tr');tr.innerHTML='<td colspan="5" class="empty-row">No staff rows. Use “Add staff” to add one person at a time.</td>';body.appendChild(tr);return}rows.forEach((r,i)=>{const tr=document.createElement('tr'),idx=document.createElement('td'),nt=document.createElement('td'),pt=document.createElement('td'),ut=document.createElement('td'),at=document.createElement('td');idx.className='idx';idx.textContent=i+1;const nurse=document.createElement('input');nurse.value=r.nurse||'';nurse.placeholder='Staff name';nurse.setAttribute('list','unitMembersDatalist');nurse.oninput=()=>{r.nurse=nurse.value;markEditDirty()};const patient=document.createElement('input');patient.value=r.patient||'';patient.placeholder='Patient / room';patient.oninput=()=>{r.patient=patient.value;markEditDirty()};nt.appendChild(nurse);pt.appendChild(patient);ut.appendChild(buildDutyPicker(r));at.className='action-cell';const rm=document.createElement('button');rm.className='row-remove';rm.type='button';rm.textContent='×';rm.title='Remove staff row';rm.onclick=()=>{rows.splice(i,1);renderEdit();markEditDirty()};at.appendChild(rm);tr.append(idx,nt,pt,ut,at);body.appendChild(tr)})}
+function updateEditorLock(){const locked=isPast(editDate);$('lockBanner').hidden=!locked;$('editorFieldset').disabled=locked;$('saveBtn').disabled=locked;$('editDetail').textContent=locked?'This date has finished and cannot be modified.':'Changes auto-save after you stop typing.'}
+function markEditDirty(){if(isPast(editDate))return;editDirty=true;$('editStatus').textContent='Unsaved changes…';clearTimeout(editTimer);editTimer=setTimeout(()=>saveEdit(true),APP.autoSaveMs)}
+async function saveEdit(auto=false){if(editSaving||!editDirty||isPast(editDate))return;clearTimeout(editTimer);editSaving=true;$('editStatus').textContent=auto?'Auto-saving…':'Saving…';try{editData.assignmentDate=editDate;editData.date=editDate;editData=alignAssignmentToUnit(editData,currentUnit);editData.revision=await saveAssignment(editData);editDirty=false;$('editStatus').textContent='Saved to Firestore';$('editDetail').textContent=`Saved ${new Date().toLocaleTimeString()}`}catch(err){console.error(err);$('editStatus').textContent='Save failed';$('editDetail').textContent=err.message;if(!auto)alert(err.message)}finally{editSaving=false}}
+$('addDayStaff').onclick=()=>{editData.stations[selectedStation].shifts.day.push(blankAssignment());renderEdit();markEditDirty()};$('addNightStaff').onclick=()=>{editData.stations[selectedStation].shifts.night.push(blankAssignment());renderEdit();markEditDirty()};$('saveBtn').onclick=()=>saveEdit(false);$('editDate').onchange=async()=>{const next=$('editDate').value;if(!next){$('editDate').value=editDate;return}if(editDirty)await saveEdit(false);await loadEdit(next)};window.addEventListener('beforeunload',e=>{if(editDirty){e.preventDefault();e.returnValue=''}});
+
+async function initUnitManagement(){if(!canManageUnit()||!currentUnit)return navigate('home');unitDraft=clone(currentUnit);$('unitManageTitle').textContent=currentUnit.name;$('unitNameInput').value=unitDraft.name;$('stationCountInput').value=unitDraft.stations.length;renderUnitSettings();await refreshUnitPeople()}
+function renderUnitSettings(){renderStationSettings();renderDutySettings()}
+function renderStationSettings(){const box=$('stationSettingsList');box.innerHTML='';unitDraft.stations.forEach((s,i)=>{const row=document.createElement('div');row.className='settings-row';row.innerHTML=`<div class="num">${i+1}</div>`;const input=document.createElement('input');input.value=s.name;input.maxLength=60;input.oninput=()=>s.name=input.value;const rm=document.createElement('button');rm.className='btn btn-danger btn-small';rm.textContent='Remove';rm.disabled=unitDraft.stations.length<=1;rm.onclick=()=>{unitDraft.stations.splice(i,1);$('stationCountInput').value=unitDraft.stations.length;renderStationSettings()};row.append(input,rm);box.appendChild(row)})}
+function renderDutySettings(){const box=$('dutySettingsList');box.innerHTML='';unitDraft.unitAssignments.forEach((d,i)=>{const row=document.createElement('div');row.className='settings-row';row.innerHTML=`<div class="num">${i+1}</div>`;const input=document.createElement('input');input.value=d.label;input.maxLength=80;input.oninput=()=>d.label=input.value;const rm=document.createElement('button');rm.className='btn btn-danger btn-small';rm.textContent='Remove';rm.onclick=()=>{unitDraft.unitAssignments.splice(i,1);renderDutySettings()};row.append(input,rm);box.appendChild(row)});if(!unitDraft.unitAssignments.length)box.innerHTML='<div class="empty-row">No unit assignments. Add one to populate the dropdown.</div>'}
+$('addStationBtn').onclick=()=>{unitDraft.stations.push({id:makeId('station'),name:`Station ${unitDraft.stations.length+1}`});$('stationCountInput').value=unitDraft.stations.length;renderStationSettings()};$('applyStationCountBtn').onclick=()=>{let n=Math.max(1,Math.min(20,Number($('stationCountInput').value)||1));while(unitDraft.stations.length<n)unitDraft.stations.push({id:makeId('station'),name:`Station ${unitDraft.stations.length+1}`});while(unitDraft.stations.length>n)unitDraft.stations.pop();renderStationSettings()};$('addDutyBtn').onclick=()=>{unitDraft.unitAssignments.push({id:makeId('duty'),label:`New Assignment ${unitDraft.unitAssignments.length+1}`});renderDutySettings()};
+$('saveUnitSettings').onclick=async()=>{const msg=$('unitManageMessage');unitDraft.name=$('unitNameInput').value.trim();unitDraft.stations=unitDraft.stations.map((s,i)=>({...s,name:s.name.trim()||`Station ${i+1}`}));unitDraft.unitAssignments=unitDraft.unitAssignments.map((d,i)=>({...d,label:d.label.trim()||`Assignment ${i+1}`}));if(!unitDraft.name){msg.textContent='Unit name is required.';return}msg.textContent='Saving unit settings…';try{const batch=writeBatch(db);batch.update(doc(db,'units',currentUnit.id),{name:unitDraft.name,stations:unitDraft.stations,unitAssignments:unitDraft.unitAssignments,updatedAt:serverTimestamp()});batch.update(doc(db,'unitDirectory',currentUnit.id),{name:unitDraft.name,updatedAt:serverTimestamp()});await batch.commit();await refreshUnits();await loadCurrentUnit();unitDraft=clone(currentUnit);$('unitManageTitle').textContent=currentUnit.name;msg.textContent='Unit settings saved.';applyRoleUI();renderUnitSettings()}catch(err){console.error(err);msg.textContent=`Could not save: ${err.message}`}};
+$('refreshUnitBtn').onclick=refreshUnitPeople;
+async function refreshUnitPeople(){unitMembers=await loadUnitMembers(currentUnit.id);renderUnitMembers();await renderJoinRequests()}
+function renderUnitMembers(){const body=$('unitMembersBody');body.innerHTML='';if(!unitMembers.length){body.innerHTML='<tr><td colspan="3" class="empty-row">No members yet.</td></tr>';return}unitMembers.forEach(m=>{const tr=document.createElement('tr');tr.innerHTML=`<td>${escapeText(m.name||'—')}</td><td>${escapeText(m.email||'—')}</td>`;const td=document.createElement('td');if(m.role==='unit_manager'){td.innerHTML='<span class="status ok">Unit Manager</span>'}else{const sel=document.createElement('select');sel.className='role-select';['staff','supervisor'].forEach(r=>{const o=document.createElement('option');o.value=r;o.textContent=roleLabel(r);o.selected=m.role===r;sel.appendChild(o)});sel.onchange=()=>changeUnitMemberRole(m,sel.value,sel);td.appendChild(sel)}tr.appendChild(td);body.appendChild(tr)})}
+async function changeUnitMemberRole(member,newRole,select){select.disabled=true;try{await updateDoc(doc(db,'users',member.uid),{role:newRole,updatedAt:serverTimestamp(),roleAssignedBy:session.user.uid});await addDoc(collection(db,'notifications'),{type:'role_changed',fromUserId:session.user.uid,fromName:session.profile.name,toUserId:member.uid,toRole:newRole,unitId:currentUnit.id,message:`Your role in ${currentUnit.name} was changed to ${roleLabel(newRole)}.`,read:false,createdAt:serverTimestamp()});await refreshUnitPeople()}catch(err){console.error(err);alert(`Could not update role: ${err.message}`);select.disabled=false}}
+async function renderJoinRequests(){const box=$('joinRequestsList');box.innerHTML='';const snap=await getDocs(query(collection(db,'joinRequests'),where('unitId','==',currentUnit.id)));const requests=snap.docs.map(d=>({id:d.id,...d.data()})).filter(r=>r.status==='pending').sort((a,b)=>(a.userName||'').localeCompare(b.userName||''));if(!requests.length){box.innerHTML='<div class="empty-row">No pending join requests.</div>';return}requests.forEach(r=>{const c=document.createElement('div');c.className='request-card';c.innerHTML=`<div><strong>${escapeText(r.userName)}</strong><div class="note">${escapeText(r.userEmail||'')}</div></div>`;const a=document.createElement('div');a.className='request-actions';const ok=document.createElement('button');ok.className='btn btn-primary btn-small';ok.textContent='Approve';ok.onclick=()=>resolveJoin(r,true);const no=document.createElement('button');no.className='btn btn-danger btn-small';no.textContent='Reject';no.onclick=()=>resolveJoin(r,false);a.append(ok,no);c.appendChild(a);box.appendChild(c)})}
+async function resolveJoin(req,approved){try{const batch=writeBatch(db);batch.update(doc(db,'joinRequests',req.id),{status:approved?'approved':'rejected',resolvedAt:serverTimestamp(),resolvedBy:session.user.uid});if(approved)batch.update(doc(db,'users',req.userId),{unitId:currentUnit.id,role:'staff',updatedAt:serverTimestamp(),roleAssignedBy:session.user.uid});const n=doc(collection(db,'notifications'));batch.set(n,{type:'join_response',fromUserId:session.user.uid,fromName:session.profile.name,toUserId:req.userId,toRole:'staff',unitId:currentUnit.id,message:approved?`Your request to join ${currentUnit.name} was approved.`:`Your request to join ${currentUnit.name} was rejected.`,read:false,createdAt:serverTimestamp()});await batch.commit();await refreshUnitPeople()}catch(err){console.error(err);alert(`Could not resolve request: ${err.message}`)}}
+
+async function initAdmin(){if(myRole()!=='admin')return navigate('home');await refreshUnits();const snap=await getDocs(collection(db,'users'));const users=snap.docs.map(d=>({uid:d.id,...d.data()})).sort((a,b)=>(a.name||a.email||'').localeCompare(b.name||b.email||''));renderAdminUsers(users);renderAdminUnits(users);$('adminUserMessage').textContent=`${users.length} registered users · ${unitsCache.length} units`}
+$('refreshAdminBtn').onclick=initAdmin;
+function renderAdminUsers(users){const body=$('adminUsersBody');body.innerHTML='';const unitNames=new Map(unitsCache.map(u=>[u.id,u.name]));users.forEach(u=>{const tr=document.createElement('tr');tr.innerHTML=`<td>${escapeText(u.name||'—')}</td><td>${escapeText(u.email||'—')}</td><td>${escapeText(roleLabel(u.requestedRole||u.role))}</td><td>${escapeText(roleLabel(isAdminEmail(u.email)?'admin':u.role))}</td><td>${escapeText(u.unitId?(unitNames.get(u.unitId)||'Assigned unit'):'—')}</td>`;const actions=document.createElement('td');actions.className='admin-actions';if(isAdminEmail(u.email)){actions.innerHTML='<span class="status ok">Administrator</span>'}else if(u.role==='pending_unit_manager'){const approve=document.createElement('button');approve.className='btn btn-primary btn-small';approve.textContent='Approve Unit Manager';approve.onclick=()=>adminApproveManager(u);const staff=document.createElement('button');staff.className='btn btn-ghost btn-small';staff.textContent='Make Staff';staff.onclick=()=>adminMakeStaff(u);actions.append(approve,staff)}else if(u.role==='unit_manager'){const own=unitsCache.find(x=>x.managerId===u.uid);actions.innerHTML=own?'<span class="status ok">Manages a unit</span>':'';if(!own){const staff=document.createElement('button');staff.className='btn btn-ghost btn-small';staff.textContent='Set as Staff';staff.onclick=()=>adminMakeStaff(u);actions.appendChild(staff)}}else{const sel=document.createElement('select');sel.className='role-select';(u.unitId?['staff','supervisor']:['staff']).forEach(r=>{const o=document.createElement('option');o.value=r;o.textContent=roleLabel(r);o.selected=u.role===r;sel.appendChild(o)});sel.onchange=()=>adminSetRole(u,sel.value);actions.appendChild(sel);if(!u.unitId){const mgr=document.createElement('button');mgr.className='btn btn-amber btn-small';mgr.textContent='Promote to Unit Manager';mgr.onclick=()=>adminApproveManager(u);actions.appendChild(mgr)}}tr.appendChild(actions);body.appendChild(tr)})}
+async function adminApproveManager(u){if(!confirm(`Approve ${u.name||u.email} as Unit Manager? They will be able to create and manage their own unit.`))return;try{await updateDoc(doc(db,'users',u.uid),{role:'unit_manager',requestedRole:'unit_manager',unitId:u.uid,updatedAt:serverTimestamp(),roleAssignedBy:session.user.uid});await addDoc(collection(db,'notifications'),{type:'role_changed',fromUserId:session.user.uid,fromName:session.profile.name,toUserId:u.uid,toRole:'unit_manager',unitId:u.uid,message:'Your Unit Manager role was approved. Sign in and create your unit.',read:false,createdAt:serverTimestamp()});await initAdmin()}catch(err){console.error(err);alert(err.message)}}
+async function adminMakeStaff(u){try{await updateDoc(doc(db,'users',u.uid),{role:'staff',requestedRole:'staff',unitId:null,updatedAt:serverTimestamp(),roleAssignedBy:session.user.uid});await addDoc(collection(db,'notifications'),{type:'role_changed',fromUserId:session.user.uid,fromName:session.profile.name,toUserId:u.uid,toRole:'staff',unitId:null,message:'Your account role is now Staff.',read:false,createdAt:serverTimestamp()});await initAdmin()}catch(err){console.error(err);alert(err.message)}}
+async function adminSetRole(u,role){try{await updateDoc(doc(db,'users',u.uid),{role,updatedAt:serverTimestamp(),roleAssignedBy:session.user.uid});await addDoc(collection(db,'notifications'),{type:'role_changed',fromUserId:session.user.uid,fromName:session.profile.name,toUserId:u.uid,toRole:role,unitId:u.unitId||null,message:`Your role was changed to ${roleLabel(role)} by the Administrator.`,read:false,createdAt:serverTimestamp()});await initAdmin()}catch(err){console.error(err);alert(err.message)}}
+function renderAdminUnits(users){const box=$('adminUnitsGrid');box.innerHTML='';if(!unitsCache.length){box.innerHTML='<div class="empty-row">No units have been created.</div>';return}unitsCache.forEach(u=>{const members=users.filter(x=>x.unitId===u.id),c=document.createElement('div');c.className='admin-unit-card';c.innerHTML=`<h3>${escapeText(u.name)}</h3><div class="note">Manager: ${escapeText(u.managerName||members.find(m=>m.uid===u.managerId)?.name||'—')}</div><div class="member-mini">${members.length?members.map(m=>`<span class="chip">${escapeText(m.name||m.email)} · ${escapeText(roleLabel(m.role))}</span>`).join(''):'<span class="note">No members</span>'}</div>`;const a=document.createElement('div');a.className='admin-actions';[['View','view'],['Edit','edit'],['Manage Unit','unit']].forEach(([label,target])=>{const b=document.createElement('button');b.className='btn btn-ghost btn-small';b.textContent=label;b.onclick=async()=>{activeUnitId=u.id;localStorage.setItem('nab-admin-unit',u.id);renderAdminUnitPicker();await navigate(target)};a.appendChild(b)});c.appendChild(a);box.appendChild(c)})}
+
+function clearNotificationListeners(){notificationsUnsubs.forEach(f=>f());notificationsUnsubs=[];notifications=[];renderNotifications()}
+function startNotifications(){clearNotificationListeners();if(!session)return;const own=query(collection(db,'notifications'),where('toUserId','==',session.user.uid));notificationsUnsubs.push(onSnapshot(own,s=>{const rest=notifications.filter(n=>n._source!=='own');const mine=s.docs.map(d=>({id:d.id,...d.data(),_source:'own'}));notifications=[...rest,...mine];renderNotifications()},e=>console.warn(e)));if(myRole()==='admin'){const adminQ=query(collection(db,'notifications'),where('toRole','==','admin'));notificationsUnsubs.push(onSnapshot(adminQ,s=>{const rest=notifications.filter(n=>n._source!=='admin');const list=s.docs.map(d=>({id:d.id,...d.data(),_source:'admin'}));notifications=[...rest,...list];renderNotifications()},e=>console.warn(e)))}}
+function renderNotifications(){const dedup=new Map();notifications.forEach(n=>dedup.set(n.id,n));const list=[...dedup.values()].sort((a,b)=>{const at=a.createdAt?.seconds||0,bt=b.createdAt?.seconds||0;return bt-at});notifications=list;const unread=list.filter(n=>!n.read).length;$('notifCount').hidden=!unread;$('notifCount').textContent=unread>99?'99+':String(unread);const box=$('notificationList');box.innerHTML='';if(!list.length){box.innerHTML='<div class="notification-empty">No notifications.</div>';return}list.forEach(n=>{const item=document.createElement('div');item.className='notification-item'+(!n.read?' unread':'');item.innerHTML=`<strong>${escapeText(notificationTitle(n.type))}</strong><p>${escapeText(n.message||'')}</p><div class="time">${tsText(n.createdAt)}</div>`;if(!n.read)item.onclick=()=>markNotificationRead(n.id);box.appendChild(item)})}
+function notificationTitle(t){return({join_request:'Join request',join_response:'Unit membership',manager_request:'Unit Manager request',role_changed:'Role updated',unit_created:'Unit created'}[t]||'Notification')}
+async function markNotificationRead(id){try{await updateDoc(doc(db,'notifications',id),{read:true,readAt:serverTimestamp()})}catch(e){console.warn(e)}}
+$('notificationBtn').onclick=()=>{$('notificationPanel').hidden=!$('notificationPanel').hidden};$('closeNotificationsBtn').onclick=()=>$('notificationPanel').hidden=true;$('markAllReadBtn').onclick=async()=>{const unread=notifications.filter(n=>!n.read);if(!unread.length)return;const batch=writeBatch(db);unread.forEach(n=>batch.update(doc(db,'notifications',n.id),{read:true,readAt:serverTimestamp()}));try{await batch.commit()}catch(e){console.warn(e)}};document.addEventListener('click',e=>{const p=$('notificationPanel');if(!p.hidden&&!p.contains(e.target)&&!$('notificationBtn').contains(e.target))p.hidden=true});
+
+function watchOwnProfile(user){if(profileUnsub)profileUnsub();profileUnsub=onSnapshot(doc(db,'users',user.uid),async snap=>{if(!snap.exists())return;const oldRole=session?.profile?.role,oldUnit=session?.profile?.unitId;session.profile={...snap.data(),role:isAdminEmail(user.email)?'admin':snap.data().role};if(oldRole!==session.profile.role){startNotifications()}await refreshUnits();await loadCurrentUnit();applyRoleUI();if(currentSection==='home'||oldRole!==session.profile.role||oldUnit!==session.profile.unitId)await navigate('home')},e=>console.error('Profile listener',e))}
+
+onAuthStateChanged(auth,async user=>{ $('loadingScreen').style.display='none'; if(!user){session=null;if(profileUnsub){profileUnsub();profileUnsub=null}if(viewUnsub){viewUnsub();viewUnsub=null}clearNotificationListeners();$('appShell').classList.remove('active');$('authScreen').classList.add('active');showAuth('login');return}try{const p=await ensureProfile(user);session={user,profile:{...p,role:isAdminEmail(user.email)?'admin':p.role}};$('authScreen').classList.remove('active');$('appShell').classList.add('active');await refreshUnits();await loadCurrentUnit();applyRoleUI();startNotifications();watchOwnProfile(user);await navigate('home')}catch(err){console.error(err);$('authScreen').classList.add('active');$('appShell').classList.remove('active');setAuthMessage(`Signed in, but Firestore setup is not ready: ${err.message}`,true)}});
 </script>
 </body>
 </html>
