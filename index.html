@@ -563,13 +563,38 @@ function updateAdVisibility(){
   const show=!session||(AD_BANNERS.showOnSignedInHome&&currentSection==='home');
   footer.hidden=!show;
 }
-function checkAdRender(){
-  const visibleUnit=window.matchMedia('(max-width:600px)').matches?$('mobileAdUnit'):$('desktopAdUnit');
-  const rendered=[...visibleUnit.children].some(el=>el.tagName!=='SCRIPT');
-  $('adDiagnostic').hidden=rendered;
+function adUnitRendered(unit){
+  if(!unit)return false;
+  return !!unit.querySelector('iframe, img, a, ins, object, embed') || [...unit.children].some(el=>el.tagName!=='SCRIPT');
 }
-window.addEventListener('load',()=>setTimeout(checkAdRender,5000));
-window.addEventListener('resize',()=>setTimeout(checkAdRender,300));
+function checkAdRender(){
+  const mobileViewport=window.matchMedia('(max-width:600px)').matches;
+  const desktop=$('desktopAdUnit'),mobile=$('mobileAdUnit'),diag=$('adDiagnostic');
+  // Clear prior inline fallback styles so CSS controls the normal responsive state.
+  desktop.style.display='';
+  mobile.style.display='';
+  if(mobileViewport){
+    const ok=adUnitRendered(mobile);
+    diag.hidden=ok;
+    diag.textContent=ok?'':'Mobile ad did not render. Check ad-blocking, browser tracking protection, and that the 320×50 Adsterra unit is Active.';
+    return;
+  }
+  if(adUnitRendered(desktop)){
+    diag.hidden=true;
+    return;
+  }
+  // Desktop 728×90 did not render. Use the already-loaded 320×50 unit as a safe centered fallback when available.
+  if(adUnitRendered(mobile)){
+    desktop.style.display='none';
+    mobile.style.display='block';
+    diag.hidden=true;
+    return;
+  }
+  diag.hidden=false;
+  diag.textContent='Desktop 728×90 did not render, and the 320×50 fallback was also unavailable. Test ad-test.html and check Adsterra placement status, ad blockers, tracking protection, or the PC/network DNS filter.';
+}
+window.addEventListener('load',()=>setTimeout(checkAdRender,7000));
+window.addEventListener('resize',()=>setTimeout(checkAdRender,500));
 populateRegistrationHospitals();updateAdVisibility();
 
 onAuthStateChanged(auth,async user=>{
