@@ -58,7 +58,7 @@
       <button id="retryWorkspaceBtn" class="btn btn-ghost btn-small" type="button">Retry workspace</button>
       <button id="authSignOutBtn" class="btn btn-ghost btn-small" type="button">Sign out</button>
     </div>
-    <div class="admin-note"><strong>Administrator:</strong> Mahmoud Hamouda · mahmod.hamoda@gmail.com. The administrator Email for support.</div>
+    <div class="admin-note"><strong>Administrator:</strong> Mahmoud Hamouda · mahmod.hamoda@gmail.com. The administrator password stays only in Firebase Authentication and is not stored in this HTML.</div>
   </main></div>
 </section>
 
@@ -124,36 +124,6 @@
   </main>
 </section>
 
-<footer id="adFooter" class="ad-footer" hidden>
-  <div class="ad-label">Advertisement</div>
-  <div class="ad-banner">
-    <div class="ad-direct-slot ad-desktop-unit" id="desktopAdUnit">
-      <script>
-        atOptions = {
-          'key' : '16feb3ea5e749a1f692c93d83a95a88d',
-          'format' : 'iframe',
-          'height' : 90,
-          'width' : 728,
-          'params' : {}
-        };
-      </script>
-      <script src="https://www.highrevenueformat.com/16feb3ea5e749a1f692c93d83a95a88d/invoke.js"></script>
-    </div>
-    <div class="ad-direct-slot ad-mobile-unit" id="mobileAdUnit">
-      <script>
-        atOptions = {
-          'key' : '9d9dfb93dacd31cfb1142d427d992172',
-          'format' : 'iframe',
-          'height' : 50,
-          'width' : 320,
-          'params' : {}
-        };
-      </script>
-      <script src="https://www.highrevenueformat.com/9d9dfb93dacd31cfb1142d427d992172/invoke.js"></script>
-    </div>
-  </div>
-  <div id="adDiagnostic" class="ad-diagnostic" hidden>Ad script did not render. Check ad-blocking, browser tracking protection, and that both Adsterra banner units are Active for this exact domain.</div>
-</footer>
 
 <aside id="notificationPanel" class="notification-panel" hidden>
   <div class="notification-head"><strong>Notifications</strong><div><button id="markAllReadBtn" class="btn btn-ghost btn-small">Mark all read</button><button id="closeNotificationsBtn" class="btn btn-ghost btn-small">Close</button></div></div>
@@ -167,7 +137,6 @@ import { getFirestore, collection, doc, getDoc, getDocs, setDoc, updateDoc, addD
 
 const firebaseConfig={apiKey:'AIzaSyCqUiYN9ce6afuDYvltijbOnb9d4uNSi-Y',authDomain:'mhmnursing-4375d.firebaseapp.com',projectId:'mhmnursing-4375d',storageBucket:'mhmnursing-4375d.firebasestorage.app',messagingSenderId:'1920599544',appId:'1:1920599544:web:511c97c4a584227c86c20d',measurementId:'G-S3VWMZ5QT3'};
 const APP={adminEmail:'mahmod.hamoda@gmail.com',adminName:'Mahmoud Hamouda',timeZone:'Asia/Riyadh',autoSaveMs:1800,defaultHospitalId:'saudi-german-hospital-madinah',defaultHospitalName:'Saudi German Hospital Madinah'};
-const AD_BANNERS={showOnSignedInHome:true};
 const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
 const $=id=>document.getElementById(id);
 const DEFAULT_DUTIES=['Narcotic','Floor Stock & High-Alert Medication','Crash Cart','Intubation Kit','IV Trolley','Cleaning Schedule','Central Monitor','Dressing Trolley','Cleaning Medication','Oxygen Cylinder','Ref Medication & Oral Syrup','POCT','Equipment','Station Arrangement'];
@@ -599,43 +568,7 @@ $('notificationBtn').onclick=()=>{$('notificationPanel').hidden=!$('notification
 
 function watchOwnProfile(user){if(profileUnsub)profileUnsub();profileUnsub=onSnapshot(doc(db,'users',user.uid),async snap=>{if(!snap.exists())return;const data=snap.data();if(!isAdminEmail(user.email)&&(data.role==='removed'||data.status==='removed')){signedOutMessage='Your access to this application was removed by the Administrator.';await signOut(auth);return}const oldRole=session?.profile?.role,oldUnit=session?.profile?.unitId,oldHospital=session?.profile?.hospitalId;session.profile={...data,role:isAdminEmail(user.email)?'admin':data.role};if(oldRole!==session.profile.role){startNotifications()}await refreshHospitals();await refreshUnits();await loadCurrentUnit();applyRoleUI();if(currentSection==='home'||oldRole!==session.profile.role||oldUnit!==session.profile.unitId||oldHospital!==session.profile.hospitalId)await navigate('home')},e=>console.error('Profile listener',e))}
 
-function updateAdVisibility(){
-  const footer=$('adFooter');
-  const show=!session||(AD_BANNERS.showOnSignedInHome&&currentSection==='home');
-  footer.hidden=!show;
-}
-function adUnitRendered(unit){
-  if(!unit)return false;
-  return !!unit.querySelector('iframe, img, a, ins, object, embed') || [...unit.children].some(el=>el.tagName!=='SCRIPT');
-}
-function checkAdRender(){
-  const mobileViewport=window.matchMedia('(max-width:600px)').matches;
-  const desktop=$('desktopAdUnit'),mobile=$('mobileAdUnit'),diag=$('adDiagnostic');
-  // Clear prior inline fallback styles so CSS controls the normal responsive state.
-  desktop.style.display='';
-  mobile.style.display='';
-  if(mobileViewport){
-    const ok=adUnitRendered(mobile);
-    diag.hidden=ok;
-    diag.textContent=ok?'':'Mobile ad did not render. Check ad-blocking, browser tracking protection, and that the 320×50 Adsterra unit is Active.';
-    return;
-  }
-  if(adUnitRendered(desktop)){
-    diag.hidden=true;
-    return;
-  }
-  // Desktop 728×90 did not render. Use the already-loaded 320×50 unit as a safe centered fallback when available.
-  if(adUnitRendered(mobile)){
-    desktop.style.display='none';
-    mobile.style.display='block';
-    diag.hidden=true;
-    return;
-  }
-  diag.hidden=false;
-  diag.textContent='Desktop 728×90 did not render, and the 320×50 fallback was also unavailable. Test ad-test.html and check Adsterra placement status, ad blockers, tracking protection, or the PC/network DNS filter.';
-}
-window.addEventListener('load',()=>setTimeout(checkAdRender,7000));
-window.addEventListener('resize',()=>setTimeout(checkAdRender,500));
+function updateAdVisibility(){ /* Ads intentionally disabled to prevent third-party redirects. */ }
 populateRegistrationHospitals();updateAdVisibility();
 
 onAuthStateChanged(auth,async user=>{
