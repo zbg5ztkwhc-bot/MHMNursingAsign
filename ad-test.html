@@ -1,0 +1,279 @@
+Yes. The right way is to wrap your Firebase web app as an Android APK and add Firebase Cloud Messaging (FCM) for real push notifications.
+
+An APK by itself will not make your current Firestore notification button active in the background. We need to connect those Firestore notifications to FCM. Android can then show notifications in the system tray even when the app is in the background; on Android 13+ the user must also grant notification permission.
+
+I would structure it like this:
+
+Your current Firebase web app
+        ↓
+Android APK wrapper
+        ↓
+Firebase Authentication
+        ↓
+Firestore
+        ↓
+FCM device token for each user
+        ↓
+Cloud Function watches new notification documents
+        ↓
+Push notification sent to the correct user's phone
+
+For example:
+
+Staff requests to join ICU
+        ↓
+Firestore notification created for ICU Unit Manager
+        ↓
+Cloud Function detects it
+        ↓
+FCM sends:
+
+"Nursing Assignment Board
+Ahmed requested to join ICU"
+
+        ↓
+Unit Manager receives it even if app is closed
+
+Firebase officially supports receiving Android notifications in the background, including system-tray delivery when the app is not foregrounded.
+
+What I need from you
+
+The main thing I need is an Android app registration in your existing Firebase project.
+
+In Firebase Console:
+
+Project settings → Your apps → Add app → Android
+
+Use a package name. For example, I recommend:
+
+com.mhmnursing.board
+
+You can choose another one, but once the app is distributed, you generally should not change the package ID.
+
+Firebase will then give you a file:
+
+google-services.json
+
+Upload that file here.
+
+I do not need any Firebase private key or service-account JSON from you.
+
+I can use your existing Firebase web project and Firestore database.
+
+I would also need or can default these:
+
+App name: Nursing Assignment Board
+Package: com.mhmnursing.board
+Android notification icon — I can initially use a simple app icon if you don't have one.
+App icon/logo — optional; you can provide one later.
+What I would add
+
+The APK would register the phone with FCM after login and save the token approximately as:
+
+users/
+  USER_UID/
+    devices/
+      DEVICE_ID
+        token: "FCM_TOKEN"
+        platform: "android"
+        updatedAt: ...
+
+That allows one user to have multiple devices.
+
+Then your existing notification collection can remain the source of truth:
+
+notifications/
+    notification123
+        userId: USER_UID
+        title: "Join request"
+        message: "Ahmed asked to join your unit"
+
+A Firebase Cloud Function would listen for a new notification document and send it to that user's registered Android devices. Firestore-triggered Cloud Functions are designed for exactly this kind of server-side reaction.
+
+One Firebase requirement
+
+For automatic server-side sending using Cloud Functions, your Firebase project needs to be upgraded to the Blaze pay-as-you-go plan. Firebase currently requires Blaze for deploying Cloud Functions. There is still a free usage allowance, and a small app can often remain very inexpensive, but a billing account must be attached.
+
+FCM itself is the notification service; you don't need to buy a separate notification API.
+
+Notification types I can connect
+
+Your existing app could generate native Android notifications for things like:
+
+Staff requests to join a unit
+Unit Manager approves/rejects a join request
+Administrator approves a Unit Manager
+User is added to a unit
+User is removed from a unit
+Staff is promoted to Supervisor
+Supervisor is demoted to Staff
+Unit Manager is changed
+Assignment is created
+Assignment is modified
+Optional alert that today's assignment has been published
+
+And tapping a notification can open the APK directly.
+
+APK vs simply installing the website
+
+Firebase can also send web push notifications through a PWA/service worker, including while the web app is closed.
+
+But for your case I would prefer the Android APK + native FCM because you'll get a normal application icon, better Android notification integration, more predictable background handling, and the ability to publish privately or later through Google Play.
+
+So the next step is:
+
+Firebase Console → Project Settings → Add App → Android → package com.mhmnursing.board → download google-services.json → upload that file here.
+
+Once you provide google-services.json, I can prepare the Android project around your current nursing app and the FCM notification architecture.
+
+Today 1:23 PM
+i registered with adsterra but no ad banner comming with the phone site version and no ads coming at all in the pc banner
+
+I found a likely cause in the version I previously prepared: I was loading your Adsterra code inside an iframe srcdoc. Adsterra specifically recommends copying the banner script without changing it and placing it directly in the page <body>. It also recommends separate desktop/mobile banner code with CSS controlling which size is visible.
+
+I corrected the integration to follow that method.
+
+Download the corrected index.html
+
+Download the complete corrected ZIP
+
+I also created a very useful standalone diagnostic page:
+
+Download ad-test.html
+
+Deploy both index.html and ad-test.html to Firebase Hosting. Then open:
+
+https://YOUR-DOMAIN/ad-test.html
+
+The test page contains your Adsterra codes directly, with no Firebase Authentication or Nursing Board JavaScript interfering.
+
+If the banner does not appear on ad-test.html, check these in order:
+
+In Adsterra → Websites, confirm your exact Firebase Hosting domain is registered and shows Approved/Active. Adsterra says banner code should be used after the website/banner request is approved.
+Confirm both ad units are Active:
+728×90 — 16feb3ea5e749a1f692c93d83a95a88d
+320×50 — 9d9dfb93dacd31cfb1142d427d992172
+Temporarily disable AdBlock/uBlock/AdGuard/Brave Shields or other tracking protection. Ad-blocking can prevent advertising scripts from loading.
+On your phone, also check whether you use:
+Private DNS/ad-blocking DNS
+AdGuard
+NextDNS
+Pi-hole
+Brave browser protection
+Test using ordinary Chrome in Incognito/Private mode with extensions disabled.
+Try mobile data instead of the hospital/work Wi-Fi. A corporate firewall or DNS filter may block highrevenueformat.com.
+
+On a PC, you can press F12 → Network, reload the page, and search for:
+
+highrevenueformat
+
+If you see ERR_BLOCKED_BY_CLIENT, an ad blocker/privacy tool is blocking it. If the request is successful but no ad is returned, verify the domain and ad-unit status in Adsterra; Adsterra notes that inactive/pending codes won't function as active placements.
+
+One more important detail: Adsterra's 728×90 banner is not automatically responsive. Their documented approach is to use the 728×90 unit for desktop and 320×50 for mobile and switch visibility with CSS. The corrected version now does exactly that.
+
+No Firestore rules need to be changed for this fix.
+
+If ad-test.html shows ads but index.html still does not, tell me that result and I can isolate the remaining app-side issue.
+
+index.html
+HTML
+ad-test.html
+HTML
+ads banner came in the phone and started to show ads but in pc still no ads coming in the banner 
+
+Since the phone ad is working, the integration itself is okay. The PC issue is most likely the 728×90 Adsterra placement not filling/being active, or something on the PC/network blocking it.
+
+I updated the app so desktop now works like this:
+
+728×90 desktop ad → if it does not render → automatically fall back to the working 320×50 ad centered on the PC page.
+
+Mobile still uses the 320×50 unit normally.
+
+Download the updated index.html
+
+Download the complete updated ZIP
+
+I also created a better diagnostic page:
+
+Download ad-test.html
+
+Deploy ad-test.html beside index.html, then open:
+
+https://your-site.web.app/ad-test.html
+
+On the PC, that page deliberately tests both units at the same time.
+
+If you see:
+
+320×50 works, 728×90 does not → the 728×90 Adsterra placement is the issue. Check that placement in your Adsterra dashboard or create a new 728×90 banner.
+Neither works on PC → disable AdBlock/uBlock/AdGuard/Brave Shields, check antivirus web protection/private DNS, and try another network such as a phone hotspot.
+Both work on ad-test.html → then the advertising account is fine, and the updated index.html should handle the desktop display correctly.
+
+No Firestore-rule change is needed for this update.
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Adsterra Desktop & Mobile Placement Test</title>
+<style>
+body{font-family:Arial,sans-serif;margin:24px;background:#f5f7fa;color:#1f2937}
+.wrap{max-width:900px;margin:auto}.card{background:white;border:1px solid #dbe2ea;border-radius:12px;padding:20px;margin:0 0 20px;text-align:center}
+.slot{margin:16px auto;overflow:hidden;max-width:100%;min-height:60px;display:flex;align-items:center;justify-content:center;border:1px dashed #cbd5e1;border-radius:8px;padding:8px}
+.small{font-size:13px;color:#667085;line-height:1.55}.ok{font-weight:700}.result{margin-top:12px;font-size:13px;font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="card">
+<h1>Adsterra placement test</h1>
+<p class="small">On a PC this page deliberately loads <strong>both</strong> ad units. If the 320×50 unit appears but the 728×90 unit does not, the 728 placement is the problem (status/fill). If neither appears, check the PC browser, ad blocker, tracking protection, DNS, or network firewall.</p>
+</div>
+<div class="card">
+<h2>Desktop 728×90 placement</h2>
+<div class="slot" id="testDesktop">
+<script>
+  atOptions = {
+    'key' : '16feb3ea5e749a1f692c93d83a95a88d',
+    'format' : 'iframe',
+    'height' : 90,
+    'width' : 728,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highrevenueformat.com/16feb3ea5e749a1f692c93d83a95a88d/invoke.js"></script>
+</div>
+<div id="desktopResult" class="result">Checking…</div>
+</div>
+<div class="card">
+<h2>320×50 placement (desktop fallback test)</h2>
+<div class="slot" id="testMobile">
+<script>
+  atOptions = {
+    'key' : '9d9dfb93dacd31cfb1142d427d992172',
+    'format' : 'iframe',
+    'height' : 50,
+    'width' : 320,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highrevenueformat.com/9d9dfb93dacd31cfb1142d427d992172/invoke.js"></script>
+</div>
+<div id="mobileResult" class="result">Checking…</div>
+</div>
+</div>
+<script>
+function rendered(id){const e=document.getElementById(id);return !!e.querySelector('iframe,img,a,ins,object,embed')||[...e.children].some(x=>x.tagName!=='SCRIPT')}
+window.addEventListener('load',()=>setTimeout(()=>{
+ const d=rendered('testDesktop'),m=rendered('testMobile');
+ document.getElementById('desktopResult').textContent=d?'728×90: rendered':'728×90: NOT rendered';
+ document.getElementById('mobileResult').textContent=m?'320×50: rendered':'320×50: NOT rendered';
+},7000));
+</script>
+</body>
+</html>
+index.html
+HTML
+ad-test.html
+HTML
