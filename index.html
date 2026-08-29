@@ -1,24 +1,243 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Opening Nursing Assignment Board</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#1769aa">
+  <title>Nursing Assignment Board Has Moved</title>
+  <style>
+    :root{
+      --bg:#f3f7fb;
+      --card:#ffffff;
+      --text:#172033;
+      --muted:#667085;
+      --brand:#1769aa;
+      --brand-dark:#0f4f82;
+      --line:#d9e2ec;
+      --soft:#eaf4fb;
+      --warn:#fff7df;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:Inter,Segoe UI,Arial,sans-serif;
+      background:linear-gradient(180deg,#eaf4fb 0,#f7f9fc 38%,#f3f7fb 100%);
+      color:var(--text);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px 16px;
+    }
+    .wrap{width:min(760px,100%)}
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:22px;
+      box-shadow:0 18px 50px rgba(17,52,86,.12);
+      overflow:hidden;
+    }
+    .hero{
+      background:linear-gradient(135deg,var(--brand-dark),var(--brand));
+      color:white;
+      padding:30px 24px 26px;
+      text-align:center;
+    }
+    .logo{
+      width:58px;height:58px;border-radius:16px;
+      display:grid;place-items:center;margin:0 auto 14px;
+      background:#ffffff1f;border:1px solid #ffffff3d;
+      font-size:30px
+    }
+    h1{margin:0;font-size:30px;line-height:1.15}
+    .hero p{margin:10px 0 0;opacity:.92}
+    .body{padding:24px}
+    .notice{
+      background:var(--warn);
+      border:1px solid #f0d994;
+      border-radius:14px;
+      padding:15px 16px;
+      margin-bottom:18px;
+    }
+    .notice strong{display:block;margin-bottom:4px}
+    h2{font-size:20px;margin:22px 0 10px}
+    p{line-height:1.65}
+    .steps{
+      margin:0;
+      padding-left:22px;
+      line-height:1.75;
+    }
+    .install-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-top:10px;
+    }
+    .install{
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:14px;
+      background:#fafcff;
+    }
+    .install h3{margin:0 0 7px;font-size:16px}
+    .install p{margin:0;color:var(--muted);font-size:14px}
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:24px;
+    }
+    .btn{
+      appearance:none;
+      border:0;
+      border-radius:12px;
+      padding:13px 18px;
+      font-weight:700;
+      font-size:15px;
+      cursor:pointer;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:46px;
+    }
+    .primary{background:var(--brand);color:white;flex:1 1 240px}
+    .secondary{background:#eef3f7;color:var(--text);flex:1 1 180px}
+    .countdown{
+      margin-top:14px;
+      text-align:center;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .new-url{
+      word-break:break-all;
+      background:var(--soft);
+      border-radius:10px;
+      padding:10px 12px;
+      font-weight:700;
+      color:var(--brand-dark);
+      text-align:center;
+      margin-top:12px;
+    }
+    footer{
+      padding:18px 24px 22px;
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      text-align:center;
+      font-size:13px;
+    }
+    @media(max-width:640px){
+      body{align-items:flex-start}
+      .install-grid{grid-template-columns:1fr}
+      h1{font-size:26px}
+      .body{padding:20px}
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="card">
+      <div class="hero">
+        <div class="logo">🏥</div>
+        <h1>Nursing Assignment Board has moved</h1>
+        <p>The service is now part of the new Duty Roster & Nursing Assignment platform.</p>
+      </div>
+
+      <div class="body">
+        <div class="notice">
+          <strong>Important for previous users</strong>
+          Your old Nursing Assignment Board account is not automatically transferred.
+          Please register again on the new website so your hospital/unit access can be assigned in the new system.
+        </div>
+
+        <h2>What you need to do</h2>
+        <ol class="steps">
+          <li>Open the new website using the button below.</li>
+          <li>Select <strong>Register</strong> and create your account again.</li>
+          <li>Choose your requested role and hospital/unit as instructed by your manager.</li>
+          <li>After approval, use the new site for Nursing Assignments and Duty Roster.</li>
+          <li>Install the new website on your phone or computer for quick access.</li>
+        </ol>
+
+        <div class="new-url">https://dutyroster.cc.cd</div>
+
+        <h2>Install the new website on your device</h2>
+        <div class="install-grid">
+          <div class="install">
+            <h3>Android / Chrome</h3>
+            <p>Open the new site → tap the browser menu ⋮ → choose <strong>Add to Home screen</strong> or <strong>Install app</strong>.</p>
+          </div>
+          <div class="install">
+            <h3>iPhone / iPad</h3>
+            <p>Open the new site in Safari → tap <strong>Share</strong> → choose <strong>Add to Home Screen</strong>.</p>
+          </div>
+          <div class="install">
+            <h3>Windows / Chrome or Edge</h3>
+            <p>Open the new site → use the browser menu → choose <strong>Install app</strong> or create a desktop shortcut.</p>
+          </div>
+          <div class="install">
+            <h3>After installation</h3>
+            <p>Open Duty Roster from your home screen and sign in with your newly registered account.</p>
+          </div>
+        </div>
+
+        <div class="actions">
+          <a class="btn primary" id="continueBtn" href="https://dutyroster.cc.cd">
+            Open the new Duty Roster site
+          </a>
+          <button class="btn secondary" id="stayBtn" type="button">Stay on this message</button>
+        </div>
+
+        <div class="countdown" id="countdown">
+          Redirecting to the new website in 20 seconds…
+        </div>
+      </div>
+
+      <footer>
+        Old Nursing Assignment Board access has been retired. Please use the new Duty Roster platform.
+      </footer>
+    </section>
+  </main>
 
   <script>
-    const firebaseUrl = "https://mhmnursing-4375d.web.app/";
-    window.location.replace(
-      firebaseUrl + window.location.pathname + window.location.search
-    );
+    const NEW_SITE = "https://dutyroster.cc.cd";
+    let seconds = 20;
+    let timer = null;
+    let redirectEnabled = true;
+
+    const countdown = document.getElementById("countdown");
+    const stayBtn = document.getElementById("stayBtn");
+
+    function renderCountdown(){
+      if (!redirectEnabled) {
+        countdown.textContent = "Automatic redirect paused. Use the button above when you are ready.";
+        return;
+      }
+      countdown.textContent = `Redirecting to the new website in ${seconds} second${seconds === 1 ? "" : "s"}…`;
+    }
+
+    function startTimer(){
+      renderCountdown();
+      timer = setInterval(() => {
+        if (!redirectEnabled) return;
+        seconds -= 1;
+        renderCountdown();
+        if (seconds <= 0) {
+          clearInterval(timer);
+          window.location.replace(NEW_SITE);
+        }
+      }, 1000);
+    }
+
+    stayBtn.addEventListener("click", () => {
+      redirectEnabled = false;
+      if (timer) clearInterval(timer);
+      renderCountdown();
+      stayBtn.disabled = true;
+      stayBtn.textContent = "Automatic redirect paused";
+    });
+
+    startTimer();
   </script>
-</head>
-
-<body>
-  <p>Opening Nursing Assignment Board…</p>
-
-  <p>
-    <a href="https://mhmnursing-4375d.web.app">
-      Click here if you are not redirected
-    </a>
-  </p>
 </body>
 </html>
